@@ -1,4 +1,5 @@
-# **************************************************************************** #
+#
+**************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
@@ -10,36 +11,34 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME = libftprintf.a
+NAME = push_swap
 
-HDR = ft_printf.h
+HDR = push_swap.h
 
 CC = cc
 CFLAGS = -Wall -Werror -Wextra
 
 SRC = \
-	ft_printf.c \
-	ft_printf_flags.c \
-	ft_printf_format.c \
-	ft_printf_precision.c \
-	ft_printf_utils.c \
+	push_swap.c \
 
 LIB_DIR = libft
 LIB_NAME = $(LIB_DIR)/libft.a
 LIB_HDR = $(LIB_DIR)/libft.h
 
-OBJ = $(SRC:.c=.o)
+OBJ_DIR = obj
+OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJ) $(HDR) $(LIB_NAME)
-	cp $(LIB_NAME) $(NAME)
-	ar -rcs $(NAME) $(OBJ)
+$(NAME): $(OBJ_DIR) $(OBJ) $(HDR) $(LIB_NAME)
 
 $(LIB_NAME): $(LIB_HDR)
 	$(MAKE) -C $(LIB_DIR)
 
-%.o: %.c $(LIB_HDR)
+$(OBJ_DIR):
+	mkdir $(OBJ_DIR)
+
+$(OBJ_DIR)/%.o: %.c $(LIB_HDR)
 	$(CC) $(CFLAGS) -o $@ -c $<
 
 clean:
@@ -52,5 +51,5 @@ fclean: clean
 
 re: fclean all
 
-.SECONDARY: $(OBJ)
+.SECONDARY: $(OBJ) $(OBJ_DIR)
 .PHONY: all clean fclean re
