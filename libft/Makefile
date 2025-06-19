@@ -6,7 +6,7 @@
 #    By: akolupae <akolupae@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/16 15:29:34 by akolupae          #+#    #+#              #
-#    Updated: 2025/06/17 11:12:01 by akolupae         ###   ########.fr        #
+#    Updated: 2025/06/19 15:57:25 by akolupae         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,7 +70,7 @@ OBJ_DIR = obj
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 
 $(OBJ_DIR)/%.o: %.c $(HDR)
-	$(CC) $(CFLAGS) -o $@ -c $<
+	@$(CC) $(CFLAGS) -o $@ -c $<
 
 PRINTF_DIR = ft_printf
 PRINTF_HDR = $(PRINTF_DIR)/ft_printf.h
@@ -84,25 +84,31 @@ PRINTF_SRC = \
 	
 PRINTF_OBJ = $(PRINTF_SRC:$(PRINTF_DIR)/%.c=$(OBJ_DIR)/%.o)
 
-$(OBJ_DIR)/%.o: $(PRINTF_DIR)/%.c $(PRINTF_HDR)
-	$(CC) $(CFLAGS) -o $@ -c $<
+COLOR = \033[1;32m
+RESET = \033[0m
 
 all: $(NAME)
 
 $(NAME): $(OBJ) $(PRINTF_OBJ)
-	ar -rcs $(NAME) $(OBJ)
-	ar -rcs $(NAME) $(PRINTF_OBJ)
+	@ar -rcs $(NAME) $(OBJ)
+	@ar -rcs $(NAME) $(PRINTF_OBJ)
+	@echo "$(COLOR) Building $@$(RESET)"
 
 $(OBJ) $(PRINTF_OBJ): | $(OBJ_DIR)
 
 $(OBJ_DIR):
-	mkdir -p $(OBJ_DIR)
+	@mkdir -p $(OBJ_DIR)
+
+$(OBJ_DIR)/%.o: $(PRINTF_DIR)/%.c $(PRINTF_HDR)
+	@$(CC) $(CFLAGS) -o $@ -c $<
 
 clean:
-	rm -rf $(OBJ) $(OBJ_DIR)
+	@rm -rf $(OBJ) $(OBJ_DIR)
+	@echo "$(COLOR) Cleaning $(NAME)$(RESET)"
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
+	@echo "$(COLOR) Removing $(NAME)$(RESET)"
 
 re: fclean all
 
