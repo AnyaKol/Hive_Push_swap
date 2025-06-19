@@ -6,7 +6,7 @@
 /*   By: akolupae <akolupae@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:47:45 by akolupae          #+#    #+#             */
-/*   Updated: 2025/06/19 16:21:08 by akolupae         ###   ########.fr       */
+/*   Updated: 2025/06/19 16:26:22 by akolupae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	ft_rotate(int *arr, int nmem);
 static void	ft_rotate_rev(int *arr, int nmem);
 static int	find_last(int *arr, int nmem);
 
-void	apply_command(char *command, int *arra, int *arrb, int nmem)
+int	apply_command(char *command, int *arra, int *arrb, int nmem)
 {	
 	if (ft_strncmp(command, "sa", 3) == 0)
 		ft_swap(&arra[0], &arra[1]);
@@ -51,7 +51,11 @@ void	apply_command(char *command, int *arra, int *arrb, int nmem)
 		ft_rotate_rev(arrb, nmem);
 	}
 	else
+	{
 		ft_printf("No such command\n");
+		return (0);
+	}
+	return (1);
 }
 
 static void	ft_push(int *arr_to, int *arr_from, int nmem)
