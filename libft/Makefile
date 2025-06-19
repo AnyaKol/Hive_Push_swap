@@ -69,9 +69,6 @@ SRC = \
 OBJ_DIR = obj
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 
-$(OBJ_DIR)/%.o: %.c $(HDR)
-	@$(CC) $(CFLAGS) -o $@ -c $<
-
 PRINTF_DIR = ft_printf
 PRINTF_HDR = $(PRINTF_DIR)/ft_printf.h
 
@@ -89,7 +86,7 @@ RESET = \033[0m
 
 all: $(NAME)
 
-$(NAME): $(OBJ) $(PRINTF_OBJ)
+$(NAME): $(OBJ_DIR) $(OBJ) $(PRINTF_OBJ)
 	@ar -rcs $(NAME) $(OBJ)
 	@ar -rcs $(NAME) $(PRINTF_OBJ)
 	@echo "$(COLOR) Building $@$(RESET)"
@@ -98,6 +95,9 @@ $(OBJ) $(PRINTF_OBJ): | $(OBJ_DIR)
 
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
+
+$(OBJ_DIR)/%.o: %.c $(HDR)
+	@$(CC) $(CFLAGS) -o $@ -c $<
 
 $(OBJ_DIR)/%.o: $(PRINTF_DIR)/%.c $(PRINTF_HDR)
 	@$(CC) $(CFLAGS) -o $@ -c $<

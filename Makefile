@@ -6,7 +6,7 @@
 #    By: akolupae <akolupae@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/19 15:02:26 by akolupae          #+#    #+#              #
-#    Updated: 2025/06/19 16:00:51 by akolupae         ###   ########.fr        #
+#    Updated: 2025/06/19 16:46:38 by akolupae         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ RESET = \033[0m
 
 all: $(NAME)
 
-$(NAME): $(OBJ_DIR) $(OBJ) $(HDR) $(LIB_NAME)
+$(NAME): $(OBJ_DIR) $(OBJ) $(LIB_NAME)
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIB_NAME)
 	@echo "$(COLOR) Building $@$(RESET)"
 
@@ -44,12 +44,12 @@ $(LIB_NAME): $(LIB_HDR)
 $(OBJ_DIR):
 	@mkdir $(OBJ_DIR)
 
-$(OBJ_DIR)/%.o: %.c $(LIB_HDR)
+$(OBJ_DIR)/%.o: %.c $(HDR)
 	@$(CC) $(CFLAGS) -o $@ -c $<
 
 clean:
 	@$(MAKE) clean -C $(LIB_DIR)
-	@rm -f $(OBJ)
+	@rm -rf $(OBJ_DIR)
 	@echo "$(COLOR) Cleaning $(NAME)$(RESET)"
 
 fclean: clean
@@ -60,5 +60,5 @@ fclean: clean
 
 re: fclean all
 
-.SECONDARY: $(OBJ) $(OBJ_DIR)
+.SECONDARY: $(OBJ_DIR) $(OBJ)
 .PHONY: all clean fclean re
