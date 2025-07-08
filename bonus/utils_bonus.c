@@ -1,20 +1,48 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isdigit.c                                       :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akolupae <akolupae@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/15 11:13:25 by akolupae          #+#    #+#             */
-/*   Updated: 2025/04/15 11:16:49 by akolupae         ###   ########.fr       */
+/*   Created: 2025/06/19 14:48:43 by akolupae          #+#    #+#             */
+/*   Updated: 2025/06/19 15:04:21 by akolupae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-bool	ft_isdigit(int c)
+#include "push_swap.h"
+
+bool	ft_issorted(int *arr, int nmem)
 {
-	if ((unsigned char) c >= '0' && (unsigned char) c <= '9')
+	int	i;
+
+	i = 1;
+	while (i < nmem)
 	{
-		return (true);
+		if (arr[i] < arr[i - 1])
+			return (false);
+		i++;
 	}
-	return (false);
+	return (true);
+}
+
+bool	ft_isempty(int *arr, int nmem)
+{
+	int	i;
+
+	i = 0;
+	while (i < nmem)
+	{
+		if (arr[i] != 0)
+			return (false);
+		i++;
+	}
+	return (true);
+}
+
+void	ft_swap(int *a, int *b)
+{
+	*a = *a ^ *b;
+	*b = *a ^ *b;
+	*a = *a ^ *b;
 }

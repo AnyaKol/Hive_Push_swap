@@ -1,33 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.c                                        :+:      :+:    :+:   */
+/*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akolupae <akolupae@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/17 11:27:48 by akolupae          #+#    #+#             */
-/*   Updated: 2025/06/17 11:54:52 by akolupae         ###   ########.fr       */
+/*   Created: 2025/06/17 11:28:04 by akolupae          #+#    #+#             */
+/*   Updated: 2025/06/19 16:26:36 by akolupae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#ifndef PUSH_SWAP_H
+# define PUSH_SWAP_H
 
-void	print_error(void);
+# include "libft/libft.h"
 
-void	push_swap(...)
-{
-	va_list args;
-	char	*result;
+//void	push_swap(...);
+int		apply_command(char *command, int *arra, int *arrb, int nmem);
+bool	ft_issorted(int *arr, int nmem);
+bool	ft_isempty(int *arr, int nmem);
+void	ft_swap(int *a, int *b);
 
-	result = NULL;
-	va_start(args);
-	va_arg(args, int);
-	va_end(args);
-	if (ft_printf("%s", result) == -1)
-		print_error();
-}
-
-void	print_error(void)
-{
-	write(2, "Error\n", 6);
-}
+#endif

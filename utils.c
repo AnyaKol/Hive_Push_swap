@@ -12,6 +12,12 @@
 
 #include "push_swap.h"
 
+int	print_error(void)
+{
+	ft_putstr_fd("Error\n", 1);
+	return (0);
+}
+
 bool	ft_issorted(int *arr, int nmem)
 {
 	int	i;

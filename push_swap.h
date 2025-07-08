@@ -15,8 +15,14 @@
 
 # include "libft/libft.h"
 
-//void	push_swap(...);
-int		apply_command(char *command, int *arra, int *arrb, int nmem);
+typedef struct s_stack
+{
+	int		*values;
+	int		nmem;
+}	t_stack;
+
+int		print_error(void);
+void	sort_stack(t_stack *stack_a);
 bool	ft_issorted(int *arr, int nmem);
 bool	ft_isempty(int *arr, int nmem);
 void	ft_swap(int *a, int *b);

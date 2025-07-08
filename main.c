@@ -6,71 +6,77 @@
 /*   By: akolupae <akolupae@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 16:05:03 by akolupae          #+#    #+#             */
-/*   Updated: 2025/06/19 16:35:46 by akolupae         ###   ########.fr       */
+/*   Updated: 2025/07/08 18:28:30 by akolupae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int		ft_putarrs(int *arra, int *arrb, int nmem);
+static bool	check_arg(char *arg);
+static bool	check_repeat(t_stack stack);
 
 int	main(int argc, char **argv)
 {
-	char	command[4];
-	int		arra[10];
-	int		arrb[10];
 	int		i;
-	int		nmem;
+	t_stack	stack;
 
-	if (argc < 3)
+	if (argc <= 2)
 		return (0);
-	nmem = argc - 1;
-	ft_memset(arra, 0, (nmem) * sizeof(int));
-	ft_memset(arrb, 0, (nmem) * sizeof(int));
-	i = 0;
-	while (i < argc - 1 && i < nmem)
+	stack.nmem = argc - 1;
+	stack.values = ft_calloc(argc - 1, sizeof(int));
+	if (stack.values == NULL)
+		return (0);
+	no_error = true;
+	i = 1;
+	while (i < argc)
 	{
-		arra[i] = ft_atoi(argv[i + 1]);
+		if (!check_arg(argv[i]))
+			return (print_error);
+		stack.values[i - 1] = ft_atoi(argv[i]);
 		i++;
 	}
-	i = 0;
-	ft_putarrs(arra, arrb, nmem);
-	while (!ft_issorted(arra, nmem) || !ft_isempty(arrb, nmem))
-	{
-		ft_memset(command, 0, 4 * sizeof(char));
-		read(0, command, 4);
-		if (command[2] == '\n')
-			command[2] = 0;
-		i += apply_command(command, arra, arrb, nmem);
-		ft_putarrs(arra, arrb, nmem);
-	}
-	ft_printf("Commands: %d\n", i);
+	if (!check_repeat(stack))
+		return (print_error);
+	sort_stack(&stack);
 	return (0);
 }
 
-int	ft_putarrs(int *arra, int *arrb, int nmem)
+static bool	check_arg(char *arg)
 {
 	int	i;
 
-	ft_printf("a  b\n");
 	i = 0;
-	while (i < nmem)
+	if (arg[i] == '-')
+		i++;
+	while (arg[i] != '\0')
 	{
-		if (ft_printf("% d % d\n", arra[i], arrb[i]) == -1)
-			return (-1);
+		if (!ft_isdigit(arg[i]))
+			return (false);
 		i++;
 	}
-	if (ft_issorted(arra, nmem))
-		ft_putstr_fd("✅ ", 1);
-	else
-		ft_putstr_fd("❌ ", 1);
-	if (ft_isempty(arrb, nmem))
-		ft_putendl_fd("✅\n", 1);
-	else
-		ft_putendl_fd("❌\n", 1);
-	return (i);
+	if (ft_atoi(arg) == 0 && i > 2)
+		return (false);
+	return (true);
 }
 
+static bool	check_repeat(t_stack stack)
+{
+	int	i;
+	int	j;
+	int	current_num;
 
-
-
+	i = 0;
+	while (i < stack.nmem - 1)
+	{
+		current_num = stack.values[i];
+		j = i + 1;
+			while (j < stack.nmem)
+			{
+				if (current_num == stack.values[j])
+					return (false);
+				j++;
+			}
+		i++;
+	}
+	return (true);
+}

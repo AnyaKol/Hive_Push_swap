@@ -19,7 +19,7 @@ CFLAGS = -Wall -Werror -Wextra
 
 SRC = \
 	main.c \
-	commands.c \
+	sort_stack.c \
 	utils.c \
 
 LIB_DIR = libft
