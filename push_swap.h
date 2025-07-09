@@ -27,6 +27,8 @@ bool	ft_isempty(int *arr, int nmem);
 void	ft_swap(int *a, int *b);
 t_stack	*create_stack(int nmem);
 void	free_stack(t_stack *stack);
+void	print_stack(t_stack *stack);
 void	sort_stack(t_stack *a);
+void	apply_command(char *command, t_stack *a, t_stack *b);
 
 #endif

@@ -21,6 +21,7 @@ SRC = \
 	main.c \
 	sort_stack.c \
 	utils.c \
+	commands.c \
 
 LIB_DIR = libft
 LIB_NAME = $(LIB_DIR)/libft.a

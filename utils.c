@@ -6,7 +6,7 @@
 /*   By: akolupae <akolupae@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:48:43 by akolupae          #+#    #+#             */
-/*   Updated: 2025/06/19 15:04:21 by akolupae         ###   ########.fr       */
+/*   Updated: 2025/07/09 19:05:56 by akolupae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,17 @@ void	free_stack(t_stack *stack)
 	}
 	free(stack);
 	stack = NULL;
+}
+
+void	print_stack(t_stack *stack)
+{
+	int	i;
+
+	i = 0;
+	while (i < stack->nmem)
+	{
+		ft_printf("%i ", stack->values[i]);
+		i++;
+	}
+	ft_printf("\n");
 }

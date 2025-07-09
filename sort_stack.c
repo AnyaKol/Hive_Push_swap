@@ -6,16 +6,15 @@
 /*   By: akolupae <akolupae@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 16:05:03 by akolupae          #+#    #+#             */
-/*   Updated: 2025/07/09 17:26:46 by akolupae         ###   ########.fr       */
+/*   Updated: 2025/07/09 19:06:02 by akolupae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-t_stack	*create_stack(int nmem);
-void	free_stack(t_stack *stack);
-void	leave_longest_chain(t_stack *a, t_stack *b);
-bool	find_longest_chain(int *values, int *chain, int nmem, int *max_len);
+static void	leave_longest_chain(t_stack *a, t_stack *b);
+static bool	find_longest_chain(int *values, int *chain, int nmem, int *max_len);
+static void	apply_chain(t_stack *a, t_stack *b, t_stack *chain);
 
 void	sort_stack(t_stack *a)
 {	
@@ -28,11 +27,10 @@ void	sort_stack(t_stack *a)
 	free_stack(b);
 }
 
-void	leave_longest_chain(t_stack *a, t_stack *b)
+static void	leave_longest_chain(t_stack *a, t_stack *b)
 {
 	t_stack	*chain;
-	int	i;
-	(void) b;
+	int		i;
 
 	chain = create_stack(a->nmem);
 	if (chain == NULL)
@@ -50,11 +48,14 @@ void	leave_longest_chain(t_stack *a, t_stack *b)
 		ft_printf("%i ", chain->values[i]);
 		i++;
 	}
-	//apply_chain(a, b, chain);
+	ft_printf("\n");
+	apply_chain(a, b, chain);
+	print_stack(a);
+	print_stack(b);
 	free_stack(chain);
 }
 
-bool	find_longest_chain(int *values, int *chain, int nmem, int *max_len)
+static bool	find_longest_chain(int *values, int *chain, int nmem, int *max_len)
 {
 	int	i;
 	static int	len = 1;
@@ -83,4 +84,24 @@ bool	find_longest_chain(int *values, int *chain, int nmem, int *max_len)
 		*max_len = len;
 	}
 	return (save);
+}
+
+static void	apply_chain(t_stack *a, t_stack *b, t_stack *chain)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (i < a->nmem)
+	{
+		if (a->values[i] == chain->values[j])
+		{
+			i++;
+			j++;
+			continue ;
+		}
+		apply_command("pb", a, b);
+		i++;
+	}
 }
