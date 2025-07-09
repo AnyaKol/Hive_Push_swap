@@ -52,3 +52,30 @@ void	ft_swap(int *a, int *b)
 	*b = *a ^ *b;
 	*a = *a ^ *b;
 }
+
+t_stack	*create_stack(int nmem)
+{
+	t_stack *stack;
+
+	stack = ft_calloc(1, sizeof(t_stack));
+	if (stack == NULL)
+		return (NULL);
+	stack->nmem = 0;
+	stack->values = ft_calloc(nmem, sizeof(int));
+	if (stack->values == NULL)
+		return (NULL);
+	return (stack);
+}
+
+void	free_stack(t_stack *stack)
+{
+	if (stack == NULL)
+		return ;
+	if (stack->values != NULL)
+	{
+		free(stack->values);
+		stack->values = NULL;
+	}
+	free(stack);
+	stack = NULL;
+}

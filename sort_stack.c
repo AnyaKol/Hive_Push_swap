@@ -6,67 +6,81 @@
 /*   By: akolupae <akolupae@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 16:05:03 by akolupae          #+#    #+#             */
-/*   Updated: 2025/07/08 19:16:33 by akolupae         ###   ########.fr       */
+/*   Updated: 2025/07/09 17:26:46 by akolupae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static t_stack	*create_empty_stack(int nmem);
+t_stack	*create_stack(int nmem);
+void	free_stack(t_stack *stack);
+void	leave_longest_chain(t_stack *a, t_stack *b);
+bool	find_longest_chain(int *values, int *chain, int nmem, int *max_len);
 
 void	sort_stack(t_stack *a)
 {	
 	t_stack	*b;
-	t_stack *chain;
 
-	b = create_empty_stack(a->nmem);	
-	chain = create_empty_stack(a->nmem);
-	if (b == NULL || chain == NULL)
+	b = create_stack(a->nmem);	
+	if (b == NULL)
 		return ;
-	chain = find_longest_chain(a, chain);
-	apply_chain(a, b, chain);
+	leave_longest_chain(a, b);
+	free_stack(b);
 }
 
-static t_stack	*create_empty_stack(int nmem)
+void	leave_longest_chain(t_stack *a, t_stack *b)
 {
-	t_stack stack;
+	t_stack	*chain;
+	int	i;
+	(void) b;
 
-	stack.nmem = 0;
-	stack.values = ft_calloc(nmem, sizeof(int));
-	if (stack.values == NULL)
-		return (NULL);
-	return (&stack);
-}
-
-static t_stack	find_longest_chain(t_stack *a, t_stack *chain)
-{
-	int		i;
-	int		min;
-
-	i = 1;
-	min = 0;
-	chain->values[0] = 0;
+	chain = create_stack(a->nmem);
+	if (chain == NULL)
+		return ;
+	i = 0;
 	while (i < a->nmem)
 	{
-		if (a->values[i] > a->values[min])
-		{
-			chain->values[1] = 1;
-			min = 1;
-			chain = find_longest_chain(&a->values[i], chain)
-		}
+		find_longest_chain(&a->values[i], chain->values, a->nmem - i, &chain->nmem);
+		i++;
 	}
-	i = 1;
-	j = 0;
-	max = a->values[0];
-	while (i < a->nmem)
+	ft_printf("Lenth: %i\n", chain->nmem);
+	i = 0;
+	while (i < chain->nmem)
 	{
-		if (a->values[i] > max)
+		ft_printf("%i ", chain->values[i]);
+		i++;
+	}
+	//apply_chain(a, b, chain);
+	free_stack(chain);
+}
+
+bool	find_longest_chain(int *values, int *chain, int nmem, int *max_len)
+{
+	int	i;
+	static int	len = 1;
+	bool	save;
+
+	i = 1;
+	save = false;
+	while (i < nmem)
+	{
+		if (values[i] > values[0])
 		{
-			max = a->values[i];
-			chain->values[j] = i;
-			j++;
+			len++;
+			if (find_longest_chain(&values[i], &chain[1], nmem - i, max_len))
+			{
+				save = true;
+				chain[0] = values[0];
+			}
+			len--;
 		}
 		i++;
 	}
+	if (len > *max_len)
+	{
+		save = true;
+		chain[0] = values[0];
+		*max_len = len;
+	}
+	return (save);
 }
-
