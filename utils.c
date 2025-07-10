@@ -39,34 +39,6 @@ void	free_stack(t_stack *stack)
 	stack = NULL;
 }
 
-bool	ft_issorted(int *arr, int nmem)
-{
-	int	i;
-
-	i = 1;
-	while (i < nmem)
-	{
-		if (arr[i] < arr[i - 1])
-			return (false);
-		i++;
-	}
-	return (true);
-}
-
-bool	ft_isempty(int *arr, int nmem)
-{
-	int	i;
-
-	i = 0;
-	while (i < nmem)
-	{
-		if (arr[i] != 0)
-			return (false);
-		i++;
-	}
-	return (true);
-}
-
 int	print_error(void)
 {
 	ft_putstr_fd("Error\n", 2);
@@ -84,4 +56,18 @@ void	print_stack(t_stack *stack)
 		i++;
 	}
 	ft_printf("\n");
+}
+
+bool	ft_issorted(t_stack *stack)
+{
+	int	i;
+
+	i = 1;
+	while (i < stack->nmem)
+	{
+		if (stack->values[i] <= stack->values[i - 1])
+			return (false);
+		i++;
+	}
+	return (true);
 }

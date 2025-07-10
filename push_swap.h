@@ -17,18 +17,25 @@
 
 typedef struct s_stack
 {
-	int		*values;
-	int		nmem;
+	int	*values;
+	int	nmem;
 }	t_stack;
 
+typedef struct s_cost
+{
+	int	cost;
+	int	a;
+	int	b;
+}	t_cost;
+
 void	sort_stack(t_stack *a);
+void	leave_chain(t_stack *a, t_stack *b);
 void	apply_command(char *command, t_stack *a, t_stack *b);
 t_stack	*create_stack(int nmem);
 void	free_stack(t_stack *stack);
 int		print_error(void);
 
-bool	ft_issorted(int *arr, int nmem);
-bool	ft_isempty(int *arr, int nmem);
+bool	ft_issorted(t_stack *stack);
 void	print_stack(t_stack *stack);
 
 #endif

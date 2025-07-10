@@ -6,15 +6,16 @@
 /*   By: akolupae <akolupae@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 16:05:03 by akolupae          #+#    #+#             */
-/*   Updated: 2025/07/10 09:03:15 by akolupae         ###   ########.fr       */
+/*   Updated: 2025/07/10 17:05:01 by akolupae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static void	leave_longest_chain(t_stack *a, t_stack *b);
-static bool	find_longest_chain(int *values, int *chain, int nmem, int *max_len);
-static void	apply_chain(t_stack *a, t_stack *b, t_stack *chain);
+static void	fill_gaps(t_stack *a, t_stack *b);
+static s_cost	find_cheapest(t_stack *a, t_stack *b);
+static int	place_in_stack(int num, t_stack *stack);
+static void	min_cost(t_cost *index, int nmem_a, int nmem_b);
 
 void	sort_stack(t_stack *a)
 {	
@@ -23,78 +24,126 @@ void	sort_stack(t_stack *a)
 	b = create_stack(a->nmem);	
 	if (b == NULL)
 		return ;
-	leave_longest_chain(a, b);
+	ft_printf("\nFind longest chain:\n");
+	leave_chain(a, b);
+	ft_printf("a: ");
+	print_stack(a);
+	ft_printf("b: ");
+	print_stack(b);
+	ft_printf("\nFill gaps:\n");
+	fill_gaps(a, b);
+	ft_printf("a: ");
+	print_stack(a);
+	ft_printf("b: ");
+	print_stack(b);
 	free_stack(b);
 }
 
-static void	leave_longest_chain(t_stack *a, t_stack *b)
+static void	fill_gaps(t_stack *a, t_stack *b)
 {
-	t_stack	*chain;
+	t_cost	cheapest;
 	int		i;
 
-	chain = create_stack(a->nmem);
-	if (chain == NULL)
-		return ;
 	i = 0;
-	while (i < a->nmem)
+	while (b->nmem != 0)
 	{
-		find_longest_chain(&a->values[i], chain->values, a->nmem - i, &chain->nmem);
-		i++;
-	}
-	ft_printf("Lenth: %i\n", chain->nmem);
-	print_stack(chain);
-	apply_chain(a, b, chain);
-	free_stack(chain);
-	print_stack(a);
-	print_stack(b);
-}
-
-static bool	find_longest_chain(int *values, int *chain, int nmem, int *max_len)
-{
-	int	i;
-	static int	len = 1;
-	bool	save;
-
-	i = 1;
-	save = false;
-	while (i < nmem)
-	{
-		if (values[i] > values[0])
+		cheapest = find_cheapest(a, b);
+		rotate_stack(cheapest, a, b);
+		while (i < min)
 		{
-			len++;
-			if (find_longest_chain(&values[i], &chain[1], nmem - i, max_len))
+			if (i > 0)
 			{
-				save = true;
-				chain[0] = values[0];
+				apply_command("rb", a, b);
+				i--;
 			}
-			len--;
+			else
+			{
+				apply_command("rrb", a, b);
+				i++;
+			}
 		}
-		i++;
+		i = find_cost(b->values[0], a);
+		while (abs(i) > 0)
+		{
+			if (i > 0)
+			{
+				apply_command("ra", a, b);
+				i--;
+			}
+			else
+			{
+				apply_command("rra", a, b);
+				i++;
+			}
+		}
+		apply_command("pa", a, b);
 	}
-	if (len > *max_len)
-	{
-		save = true;
-		chain[0] = values[0];
-		*max_len = len;
-	}
-	return (save);
 }
 
-static void	apply_chain(t_stack *a, t_stack *b, t_stack *chain)
+void	rotate_stack()
+{
+}
+
+static t_cost	find_cheapest(t_stack *a, t_stack *b)
+{
+	int	i;
+	t_cost	index;
+	t_cost	cheapest;
+
+	i = 0;
+	cheapest.cost = a->nmem + b->nmem;
+	while (i < b->nmem)
+	{
+		index.a = place_in_stack(b->values[i], a);
+		index.b = i;
+		min_cost(&index, a->nmem, b->nmem);
+		if (index.cost < cheapest.cost)
+			cheapest = index;
+		i++;
+	}
+	return (cheapest);
+}
+
+static int	place_in_stack(int num, t_stack *stack)
 {
 	int	i;
 
 	i = 0;
-	while (i < chain->nmem)
+	while (i < stack->nmem)
 	{
-		if (chain->nmem == a->nmem)
-			return ;
-		if (a->values[0] == chain->values[i])
-		{
-			apply_command("ra", a, b);
-			i++;
-			continue ;
-		}
-		apply_command("pb", a, b);
+		if (num < stack->values[i] && num > stack->values[stack->nmem - 1 - i])
+			break ;
+		i++;
+	}
+	return (i);
+}
+
+void	min_cost(t_cost *index, int nmem_a, int nmem_b)
+{
+	int	min;
+	int	rev_a;
+	int	rev_b;
+
+	rev_a = nmem_a - index->a;
+	rev_b = nmem_b - index->b;
+	index->cost = index->a + index->b - ft_min(index->a, index->b);
+	min = rev_a + rev_b - ft_min(rev_a, rev_b);
+	if (min < index->cost)
+	{
+		index->cost = min;
+		index->a = -rev_a;
+		index->b = -rev_b;
+	}
+	min = index->a + rev_b;
+	if (min < index->cost)
+	{
+		index->cost = min;
+		index->b = -rev_b;
+	}
+	min = rev_a + index->b;
+	if (min < index->cost)
+	{
+		index->cost = min;
+		index->a = -rev_a;
 	}
 }
