@@ -56,6 +56,7 @@ int		ft_putendl_fd(char *s, int fd);
 int		ft_putnbr_fd(int n, int fd);
 int		ft_max(int a, int b);
 int		ft_min(int a, int b);
+void	ft_swap(int *a, int *b);
 int		ft_printf(const char *format, ...);
 
 typedef struct s_list

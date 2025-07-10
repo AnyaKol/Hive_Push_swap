@@ -65,6 +65,7 @@ SRC = \
 	ft_itoa_base.c \
 	ft_max.c \
 	ft_min.c \
+	ft_swap.c \
 
 OBJ_DIR = obj
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)

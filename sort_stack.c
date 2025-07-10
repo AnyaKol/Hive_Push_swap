@@ -6,7 +6,7 @@
 /*   By: akolupae <akolupae@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 16:05:03 by akolupae          #+#    #+#             */
-/*   Updated: 2025/07/09 19:06:02 by akolupae         ###   ########.fr       */
+/*   Updated: 2025/07/10 09:03:15 by akolupae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,11 @@ static void	leave_longest_chain(t_stack *a, t_stack *b)
 		i++;
 	}
 	ft_printf("Lenth: %i\n", chain->nmem);
-	i = 0;
-	while (i < chain->nmem)
-	{
-		ft_printf("%i ", chain->values[i]);
-		i++;
-	}
-	ft_printf("\n");
+	print_stack(chain);
 	apply_chain(a, b, chain);
+	free_stack(chain);
 	print_stack(a);
 	print_stack(b);
-	free_stack(chain);
 }
 
 static bool	find_longest_chain(int *values, int *chain, int nmem, int *max_len)
@@ -89,19 +83,18 @@ static bool	find_longest_chain(int *values, int *chain, int nmem, int *max_len)
 static void	apply_chain(t_stack *a, t_stack *b, t_stack *chain)
 {
 	int	i;
-	int	j;
 
 	i = 0;
-	j = 0;
-	while (i < a->nmem)
+	while (i < chain->nmem)
 	{
-		if (a->values[i] == chain->values[j])
+		if (chain->nmem == a->nmem)
+			return ;
+		if (a->values[0] == chain->values[i])
 		{
+			apply_command("ra", a, b);
 			i++;
-			j++;
 			continue ;
 		}
 		apply_command("pb", a, b);
-		i++;
 	}
 }

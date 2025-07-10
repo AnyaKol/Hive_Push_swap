@@ -12,10 +12,31 @@
 
 #include "push_swap.h"
 
-int	print_error(void)
+t_stack	*create_stack(int nmem)
 {
-	ft_putstr_fd("Error\n", 2);
-	return (0);
+	t_stack *stack;
+
+	stack = ft_calloc(1, sizeof(t_stack));
+	if (stack == NULL)
+		return (NULL);
+	stack->nmem = 0;
+	stack->values = ft_calloc(nmem, sizeof(int));
+	if (stack->values == NULL)
+		return (NULL);
+	return (stack);
+}
+
+void	free_stack(t_stack *stack)
+{
+	if (stack == NULL)
+		return ;
+	if (stack->values != NULL)
+	{
+		free(stack->values);
+		stack->values = NULL;
+	}
+	free(stack);
+	stack = NULL;
 }
 
 bool	ft_issorted(int *arr, int nmem)
@@ -46,38 +67,10 @@ bool	ft_isempty(int *arr, int nmem)
 	return (true);
 }
 
-void	ft_swap(int *a, int *b)
+int	print_error(void)
 {
-	*a = *a ^ *b;
-	*b = *a ^ *b;
-	*a = *a ^ *b;
-}
-
-t_stack	*create_stack(int nmem)
-{
-	t_stack *stack;
-
-	stack = ft_calloc(1, sizeof(t_stack));
-	if (stack == NULL)
-		return (NULL);
-	stack->nmem = 0;
-	stack->values = ft_calloc(nmem, sizeof(int));
-	if (stack->values == NULL)
-		return (NULL);
-	return (stack);
-}
-
-void	free_stack(t_stack *stack)
-{
-	if (stack == NULL)
-		return ;
-	if (stack->values != NULL)
-	{
-		free(stack->values);
-		stack->values = NULL;
-	}
-	free(stack);
-	stack = NULL;
+	ft_putstr_fd("Error\n", 2);
+	return (0);
 }
 
 void	print_stack(t_stack *stack)

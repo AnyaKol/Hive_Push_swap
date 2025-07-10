@@ -6,60 +6,35 @@
 /*   By: akolupae <akolupae@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:47:45 by akolupae          #+#    #+#             */
-/*   Updated: 2025/06/19 16:26:22 by akolupae         ###   ########.fr       */
+/*   Updated: 2025/07/10 09:07:46 by akolupae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
 static void	ft_push(t_stack *to, t_stack *from);
-//static void	ft_rotate(int *arr, int nmem);
-//static void	ft_rotate_rev(int *arr, int nmem);
-//static int	find_last(int *arr, int nmem);
+static void	ft_rotate(t_stack *stack);
+static void	ft_rotate_rev(t_stack *stack);
 
 void	apply_command(char *command, t_stack *a, t_stack *b)
 {
-	/*
-	if (ft_strncmp(command, "sa", 3) == 0)
-		ft_swap(&arra[0], &arra[1]);
-	else if (ft_strncmp(command, "sb", 3) == 0)
-		ft_swap(&arrb[0], &arrb[1]);
-	else if (ft_strncmp(command, "ss", 3) == 0)
-	{
-		ft_swap(&arra[0], &arra[1]);
-		ft_swap(&arrb[0], &arrb[1]);
-	}
-	*/
-	if (ft_strncmp(command, "pa", 3) == 0)
-	{
+	if (!ft_strncmp(command, "sa", 2) || !ft_strncmp(command, "ss", 2))
+		ft_swap(&a->values[0], &a->values[1]);
+	else if (!ft_strncmp(command, "ra", 2) || !ft_strncmp(command, "rr", 2))
+		ft_rotate(a);
+	else if (!ft_strncmp(command, "rra", 3) || !ft_strncmp(command, "rrr", 3))
+		ft_rotate_rev(a);
+	else if (!ft_strncmp(command, "pa", 2))
 		ft_push(a, b);
-		ft_printf("pa\n");
-	}
-	else if (ft_strncmp(command, "pb", 3) == 0)
-	{
+	else if (!ft_strncmp(command, "pb", 2))
 		ft_push(b, a);
-		ft_printf("pb\n");
-	}
-	/*
-	else if (ft_strncmp(command, "ra", 3) == 0)
-		ft_rotate(arra, nmem);
-	else if (ft_strncmp(command, "rb", 3) == 0)
-		ft_rotate(arrb, nmem);
-	else if (ft_strncmp(command, "rr", 3) == 0)
-	{
-		ft_rotate(arra, nmem);
-		ft_rotate(arrb, nmem);
-	}
-	else if (ft_strncmp(command, "rra", 3) == 0)
-		ft_rotate_rev(arra, nmem);
-	else if (ft_strncmp(command, "rrb", 3) == 0)
-		ft_rotate_rev(arrb, nmem);
-	else if (ft_strncmp(command, "rrr", 3) == 0)
-	{
-		ft_rotate_rev(arra, nmem);
-		ft_rotate_rev(arrb, nmem);
-	}
-	*/
+	if (!ft_strncmp(command, "sb", 2) || !ft_strncmp(command, "ss", 2))
+		ft_swap(&b->values[0], &b->values[1]);
+	else if (!ft_strncmp(command, "rb", 2) || !ft_strncmp(command, "rr", 2))
+		ft_rotate(b);
+	else if (!ft_strncmp(command, "rrb", 3) || !ft_strncmp(command, "rrr", 3))
+		ft_rotate_rev(b);
+	ft_printf("%s\n", command);
 }
 
 static void	ft_push(t_stack *to, t_stack *from)
@@ -83,44 +58,27 @@ static void	ft_push(t_stack *to, t_stack *from)
 	}
 	from->nmem -= 1;
 }
-/*
-static void	ft_rotate(int *arr, int nmem)
+
+static void	ft_rotate(t_stack *stack)
 {
 	int	i;
-	int	last;
 
 	i = 0;
-	last = find_last(arr, nmem);
-	while (i < last - 1)
+	while (i < stack->nmem - 1)
 	{
-		ft_swap(&arr[i], &arr[i + 1]);
+		ft_swap(&stack->values[i], &stack->values[i + 1]);
 		i++;
 	}
 }
 
-static void	ft_rotate_rev(int *arr, int nmem)
+static void	ft_rotate_rev(t_stack *stack)
 {
 	int	i;
 
-	i = find_last(arr, nmem) - 1;
+	i = stack->nmem - 1;
 	while (i > 0)
 	{
-		ft_swap(&arr[i], &arr[i - 1]);
+		ft_swap(&stack->values[i], &stack->values[i - 1]);
 		i--;
 	}
 }
-
-static int	find_last(int *arr, int nmem)
-{
-	int	i;
-
-	i = 0;
-	while (i < nmem)
-	{
-		if (arr[i] == 0)
-			break ;
-		i++;
-	}
-	return (i);
-}
-*/
