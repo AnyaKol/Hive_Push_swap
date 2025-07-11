@@ -18,19 +18,19 @@ static void	ft_rotate_rev(t_stack *stack);
 
 void	apply_command(char *command, t_stack *a, t_stack *b)
 {
-	if (!ft_strncmp(command, "sa", 2) || !ft_strncmp(command, "ss", 2))
+	if (!ft_strncmp(command, "sa", 3) || !ft_strncmp(command, "ss", 3))
 		ft_swap(&a->values[0], &a->values[1]);
-	else if (!ft_strncmp(command, "ra", 2) || !ft_strncmp(command, "rr", 2))
+	else if (!ft_strncmp(command, "ra", 3) || !ft_strncmp(command, "rr", 3))
 		ft_rotate(a);
 	else if (!ft_strncmp(command, "rra", 3) || !ft_strncmp(command, "rrr", 3))
 		ft_rotate_rev(a);
-	else if (!ft_strncmp(command, "pa", 2))
+	else if (!ft_strncmp(command, "pa", 3))
 		ft_push(a, b);
-	else if (!ft_strncmp(command, "pb", 2))
+	else if (!ft_strncmp(command, "pb", 3))
 		ft_push(b, a);
-	if (!ft_strncmp(command, "sb", 2) || !ft_strncmp(command, "ss", 2))
+	if (!ft_strncmp(command, "sb", 3) || !ft_strncmp(command, "ss", 3))
 		ft_swap(&b->values[0], &b->values[1]);
-	else if (!ft_strncmp(command, "rb", 2) || !ft_strncmp(command, "rr", 2))
+	else if (!ft_strncmp(command, "rb", 3) || !ft_strncmp(command, "rr", 3))
 		ft_rotate(b);
 	else if (!ft_strncmp(command, "rrb", 3) || !ft_strncmp(command, "rrr", 3))
 		ft_rotate_rev(b);

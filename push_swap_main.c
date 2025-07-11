@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   push_swap_main.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akolupae <akolupae@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 16:05:03 by akolupae          #+#    #+#             */
-/*   Updated: 2025/07/09 11:40:48 by akolupae         ###   ########.fr       */
+/*   Updated: 2025/07/11 11:05:41 by akolupae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,26 +18,26 @@ static bool	check_repeat(t_stack stack);
 int	main(int argc, char **argv)
 {
 	int		i;
-	t_stack	*stack;
+	t_stack	*a;
 
 	if (argc <= 2)
 		return (0);
-	stack = create_stack(argc - 1);
-	if (stack == NULL)
+	a = create_stack(argc - 1);
+	if (a == NULL)
 		return (0);
-	stack->nmem = argc - 1;
+	a->nmem = argc - 1;
 	i = 1;
 	while (i < argc)
 	{
 		if (!check_arg(argv[i]))
 			return (print_error());
-		stack->values[i - 1] = ft_atoi(argv[i]);
+		a->values[i - 1] = ft_atoi(argv[i]);
 		i++;
 	}
-	if (!check_repeat(*stack))
+	if (!check_repeat(*a))
 		return (print_error());
-	sort_stack(stack);
-	free_stack(stack);
+	sort_stack(a);
+	free_stack(a);
 	return (0);
 }
 

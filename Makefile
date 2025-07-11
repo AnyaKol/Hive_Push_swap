@@ -18,9 +18,11 @@ CC = cc
 CFLAGS = -Wall -Werror -Wextra
 
 SRC = \
-	main.c \
+	push_swap_main.c \
+	push_swap_utils.c \
 	sort_stack.c \
-	utils.c \
+	leave_chain.c \
+	fill_gaps.c \
 	commands.c \
 
 LIB_DIR = libft
