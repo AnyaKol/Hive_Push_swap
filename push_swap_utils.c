@@ -43,12 +43,12 @@ int	index_in_stack(int num, t_stack *stack)
 {
 	int	i;
 
-	if (stack->values[stack->nmem - 1] < num && num < stack->values[0])
-		return (0);
 	i = 1;
 	while (i < stack->nmem)
 	{
-		if (stack->values[i - 1] < num && num < stack->values[i])
+		if ((stack->values[i - 1] < num && num < stack->values[i])
+			|| (stack->values[i - 1] > stack->values[i]
+				&& (stack->values[i - 1] < num || num < stack->values[i])))
 			break ;
 		i++;
 	}
