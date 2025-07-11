@@ -33,12 +33,14 @@ void	leave_chain(t_stack *a, t_stack *b);
 void	fill_gaps(t_stack *a, t_stack *b);
 void	rotate_to_start(t_stack *a);
 void	rotate_stack(t_cost index, t_stack *a, t_stack *b);
-void	apply_command(char *command, t_stack *a, t_stack *b);
+int	apply_command(char *command, t_stack *a, t_stack *b); //REMOVE counter
 t_stack	*create_stack(int nmem);
 void	free_stack(t_stack *stack);
 int		index_in_stack(int num, t_stack *stack);
+bool	stack_contains(t_stack *stack, int num);
 int		print_error(void);
 
-void	print_stack(t_stack *stack);
+void	print_stack(t_stack *stack); //REMOVE
+bool	ft_issorted(t_stack stack); //REMOVE
 
 #endif

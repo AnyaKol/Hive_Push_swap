@@ -15,8 +15,21 @@
 static void	ft_push(t_stack *to, t_stack *from);
 static void	ft_rotate(t_stack *stack);
 static void	ft_rotate_rev(t_stack *stack);
+static void	stack_command(char *command, t_stack *a, t_stack *b);
 
-void	apply_command(char *command, t_stack *a, t_stack *b)
+int	apply_command(char *command, t_stack *a, t_stack *b)
+{
+	static int	counter = 0;
+
+	if (!ft_strncmp(command, "", 1))
+		return (counter);
+	stack_command(command, a, b);
+	ft_printf("%s\n", command);
+	counter++;
+	return (counter);
+}
+
+static void	stack_command(char *command, t_stack *a, t_stack *b)
 {
 	if (!ft_strncmp(command, "sa", 3) || !ft_strncmp(command, "ss", 3))
 		ft_swap(&a->values[0], &a->values[1]);
@@ -34,7 +47,6 @@ void	apply_command(char *command, t_stack *a, t_stack *b)
 		ft_rotate(b);
 	else if (!ft_strncmp(command, "rrb", 3) || !ft_strncmp(command, "rrr", 3))
 		ft_rotate_rev(b);
-	ft_printf("%s\n", command);
 }
 
 static void	ft_push(t_stack *to, t_stack *from)

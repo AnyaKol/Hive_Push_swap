@@ -6,7 +6,7 @@
 /*   By: akolupae <akolupae@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 16:05:03 by akolupae          #+#    #+#             */
-/*   Updated: 2025/07/11 11:03:41 by akolupae         ###   ########.fr       */
+/*   Updated: 2025/07/11 12:44:22 by akolupae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ void	leave_chain(t_stack *a, t_stack *b)
 		find_chain(&a->values[i], chain->values, a->nmem - i, &chain->nmem);
 		i++;
 	}
-	ft_printf("Lenth: %i\n", chain->nmem);
-	print_stack(chain);
 	apply_chain(a, b, chain);
 	free_stack(chain);
 }
@@ -68,21 +66,29 @@ static bool	find_chain(int *values, int *chain, int nmem, int *max_len)
 
 static void	apply_chain(t_stack *a, t_stack *b, t_stack *chain)
 {
-	int	i;
-
 	if (chain->nmem == a->nmem)
 		return ;
-	i = 0;
-	while (i < chain->nmem)
+	while (a->nmem > chain->nmem)
 	{
-		if (a->values[0] == chain->values[i])
-		{
+		if (stack_contains(chain, a->values[0]))
 			apply_command("ra", a, b);
-			i++;
-			continue ;
-		}
-		apply_command("pb", a, b);
+		else
+			apply_command("pb", a, b);
 	}
 	while (a->values[0] != chain->values[0])
 		apply_command("pb", a, b);
+}
+
+bool	stack_contains(t_stack *stack, int num)
+{
+	int	i;
+
+	i = 0;
+	while (i < stack->nmem)
+	{
+		if (stack->values[i] == num)
+			return (true);
+		i++;
+	}
+	return (false);
 }

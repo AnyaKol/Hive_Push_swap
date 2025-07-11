@@ -43,10 +43,12 @@ int	index_in_stack(int num, t_stack *stack)
 {
 	int	i;
 
-	i = 0;
+	if (stack->values[stack->nmem - 1] < num && num < stack->values[0])
+		return (0);
+	i = 1;
 	while (i < stack->nmem)
 	{
-		if (num < stack->values[i] && num > stack->values[stack->nmem - 1 - i])
+		if (stack->values[i - 1] < num && num < stack->values[i])
 			break ;
 		i++;
 	}
@@ -85,6 +87,8 @@ int	print_error(void)
 	return (0);
 }
 
+
+
 void	print_stack(t_stack *stack)
 {
 	int	i;
@@ -92,8 +96,22 @@ void	print_stack(t_stack *stack)
 	i = 0;
 	while (i < stack->nmem)
 	{
-		ft_printf("%i ", stack->values[i]);
+		ft_printf(" %i", stack->values[i]);
 		i++;
 	}
 	ft_printf("\n");
+}
+
+bool	ft_issorted(t_stack stack)
+{
+	int	i;
+
+	i = 1;
+	while (i < stack.nmem)
+	{
+		if (stack.values[i] < stack.values[i - 1])
+			return (false);
+		i++;
+	}
+	return (true);
 }

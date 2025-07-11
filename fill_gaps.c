@@ -78,25 +78,26 @@ static t_cost	min_cost(t_cost index, int rev_a, int rev_b)
 {
 	t_cost	min;
 
-	index.cost = index.a + index.b - ft_min(index.a, index.b);
-	min.cost = index.a + rev_b;
-	if (min.cost < index.cost)
+	min = index;
+	min.cost = index.a + index.b - ft_min(index.a, index.b);
+	index.cost = index.a + rev_b;
+	if (index.cost < min.cost)
 	{
-		index.cost = min.cost;
+		min.cost = index.cost;
 		min.a = index.a;
 		min.b = -rev_b;
 	}
-	min.cost = rev_a + index.b;
-	if (min.cost < index.cost)
+	index.cost = rev_a + index.b;
+	if (index.cost < min.cost)
 	{
-		index.cost = min.cost;
+		min.cost = index.cost;
 		min.a = -rev_a;
 		min.b = index.b;
 	}
-		min.cost = rev_a + rev_b - ft_min(rev_a, rev_b);
-	if (min.cost < index.cost)
+	index.cost = rev_a + rev_b - ft_min(rev_a, rev_b);
+	if (index.cost < min.cost)
 	{
-		index.cost = min.cost;
+		min.cost = index.cost;
 		min.a = -rev_a;
 		min.b = -rev_b;
 	}
