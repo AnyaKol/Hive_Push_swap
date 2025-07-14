@@ -39,6 +39,41 @@ void	free_stack(t_stack *stack)
 	stack = NULL;
 }
 
+t_stack	**create_memo(t_stack *a)
+{
+	int	i;
+	t_stack	**memo;
+
+	memo = ft_calloc(a->nmem, sizeof(t_stack *));
+	if (memo == NULL)
+		return (NULL);
+	i = 0;
+	while (i < a->nmem)
+	{
+		memo[i] = create_stack(a->nmem - i);
+		if (memo[i] == NULL)
+		{
+			free_memo(memo, a->nmem);
+			return (NULL);
+		}
+		i++;
+	}
+	return (memo);
+}
+
+void	free_memo(t_stack **memo, int nmem)
+{
+	int	i;
+
+	i = 0; 
+	while (i < nmem)
+	{
+		free_stack(memo[i]);
+		i++;
+	}
+	free(memo);
+}
+
 int	index_in_stack(int num, t_stack *stack)
 {
 	int	i;
@@ -81,11 +116,8 @@ void	rotate_stack(t_cost index, t_stack *a, t_stack *b)
 	}
 }
 
-int	print_error(void)
-{
-	ft_putstr_fd("Error\n", 2);
-	return (0);
-}
+
+
 
 
 

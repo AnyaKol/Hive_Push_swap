@@ -14,6 +14,7 @@
 
 static bool	check_arg(char *arg);
 static bool	check_repeat(t_stack stack);
+static int	print_error(void);
 
 int	main(int argc, char **argv)
 {
@@ -37,9 +38,9 @@ int	main(int argc, char **argv)
 	if (!check_repeat(*a))
 		return (print_error());
 	sort_stack(a);
-	if (ft_issorted(*a))
-		ft_printf("✅\n");
-	ft_printf("Commands: %i\n", apply_command("", NULL, NULL));
+//	if (ft_issorted(*a))
+//		ft_printf("✅\n");
+//	ft_printf("Commands: %i\n", apply_command("", NULL, NULL));
 	free_stack(a);
 	return (0);
 }
@@ -82,4 +83,10 @@ static bool	check_repeat(t_stack stack)
 		i++;
 	}
 	return (true);
+}
+
+static int	print_error(void)
+{
+	ft_putstr_fd("Error\n", 2);
+	return (0);
 }

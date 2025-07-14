@@ -6,74 +6,65 @@
 /*   By: akolupae <akolupae@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 16:05:03 by akolupae          #+#    #+#             */
-/*   Updated: 2025/07/14 12:56:33 by akolupae         ###   ########.fr       */
+/*   Updated: 2025/07/14 18:28:17 by akolupae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static bool	find_chain(int *values, int *chain, int nmem, int *max_len);
+static void	fill_memo(int *values, int nmem, t_stack **memo);
 static void	apply_chain(t_stack *a, t_stack *b, t_stack *chain);
+static bool	stack_contains(t_stack *stack, int num);
 
-void	leave_chain(t_stack *a, t_stack *b)
+void	find_chain(t_stack *a, t_stack *b)
 {
-	t_list	*head;
+	t_stack	**memo;
+	t_stack	*chain;
+	int		max;
 	int		i;
 
 	i = 0;
-	head = NULL;
+	max = 0;
+	memo = create_memo(a);
+	if (memo == NULL)
+		return ;
 	while (i < a->nmem)
 	{
-		find_chain(&a->values[i], a->nmem - i, head);
+		fill_memo(&a->values[i], a->nmem - i, &memo[i]);
+		if (memo[i]->nmem > max)
+		{
+			chain = memo[i];
+			max = chain->nmem;
+		}
 		i++;
 	}
-	apply_chain(a, b, head->content->values);
+	apply_chain(a, b, chain);
+	free_memo(memo, a->nmem);
 }
 
-t_list	create_chain_stack(int nmem)
-{
-	t_list	*chain;
-	t_stack	*stack;
-
-	chain = NULL;
-	while (nmem > 0)
-	{
-		stack = create_stack(nmem);
-		if (stack == NULL)
-			ft_lstclear(&chain, ft_del);
-		ft_lstadd_back();
-		nmem--;
-	}
-	return (chain);
-}
-
-static bool	find_chain(int *values, int nmem, t_list *node)
+static void	fill_memo(int *values, int nmem, t_stack **memo)
 {
 	int	i;
-	bool	save;
+	int	max;
 
 	i = 1;
-	save = false;
+	max = 0;
 	while (i < nmem)
 	{
 		if (values[i] > values[0])
 		{
-			if ()
+			if (memo[i]->nmem == 0)
+				fill_memo(&values[i], nmem - i, &memo[i]);
+			if (memo[i]->nmem > max)
 			{
-				find_chain(&values[i], &chain[1], nmem - i, max_len);
-				save = true;
-				chain[0] = values[0];
+				max = memo[i]->nmem;
+				ft_memcpy(&memo[0]->values[1], memo[i]->values, max * sizeof(int));
 			}
 		}
 		i++;
 	}
-	if (len > *max_len)
-	{
-		save = true;
-		chain[0] = values[0];
-		*max_len = len;
-	}
-	return (save);
+	memo[0]->values[0] = values[0];
+	memo[0]->nmem = max + 1;
 }
 
 static void	apply_chain(t_stack *a, t_stack *b, t_stack *chain)
@@ -87,11 +78,9 @@ static void	apply_chain(t_stack *a, t_stack *b, t_stack *chain)
 		else
 			apply_command("pb", a, b);
 	}
-	while (a->values[0] != chain->values[0])
-		apply_command("pb", a, b);
 }
 
-bool	stack_contains(t_stack *stack, int num)
+static bool	stack_contains(t_stack *stack, int num)
 {
 	int	i;
 
@@ -104,3 +93,5 @@ bool	stack_contains(t_stack *stack, int num)
 	}
 	return (false);
 }
+
+

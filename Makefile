@@ -21,7 +21,7 @@ SRC = \
 	push_swap_main.c \
 	push_swap_utils.c \
 	sort_stack.c \
-	leave_chain.c \
+	find_chain.c \
 	fill_gaps.c \
 	commands.c \
 

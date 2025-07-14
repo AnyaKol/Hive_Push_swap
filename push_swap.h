@@ -29,18 +29,21 @@ typedef struct s_cost
 }	t_cost;
 
 void	sort_stack(t_stack *a);
-void	leave_chain(t_stack *a, t_stack *b);
+void	find_chain(t_stack *a, t_stack *b);
 void	fill_gaps(t_stack *a, t_stack *b);
 void	rotate_to_start(t_stack *a);
-void	rotate_stack(t_cost index, t_stack *a, t_stack *b);
-int	apply_command(char *command, t_stack *a, t_stack *b); //REMOVE counter
+int		apply_command(char *command, t_stack *a, t_stack *b); //REMOVE counter
 t_stack	*create_stack(int nmem);
 void	free_stack(t_stack *stack);
+t_stack	**create_memo(t_stack *a);
+void	free_memo(t_stack **memo, int nmem);
 int		index_in_stack(int num, t_stack *stack);
-bool	stack_contains(t_stack *stack, int num);
-int		print_error(void);
+void	rotate_stack(t_cost index, t_stack *a, t_stack *b);
 
-void	print_stack(t_stack *stack); //REMOVE
-bool	ft_issorted(t_stack stack); //REMOVE
+
+
+
+//void	print_stack(t_stack *stack); //REMOVE
+//bool	ft_issorted(t_stack stack); //REMOVE
 
 #endif
