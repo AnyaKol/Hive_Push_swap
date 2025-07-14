@@ -66,6 +66,7 @@ SRC = \
 	ft_max.c \
 	ft_min.c \
 	ft_swap.c \
+	ft_del.c \
 
 OBJ_DIR = obj
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)

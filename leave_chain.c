@@ -6,7 +6,7 @@
 /*   By: akolupae <akolupae@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 16:05:03 by akolupae          #+#    #+#             */
-/*   Updated: 2025/07/11 12:44:22 by akolupae         ###   ########.fr       */
+/*   Updated: 2025/07/14 12:56:33 by akolupae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,26 +17,39 @@ static void	apply_chain(t_stack *a, t_stack *b, t_stack *chain);
 
 void	leave_chain(t_stack *a, t_stack *b)
 {
-	t_stack	*chain;
+	t_list	*head;
 	int		i;
 
-	chain = create_stack(a->nmem);
-	if (chain == NULL)
-		return ;
 	i = 0;
+	head = NULL;
 	while (i < a->nmem)
 	{
-		find_chain(&a->values[i], chain->values, a->nmem - i, &chain->nmem);
+		find_chain(&a->values[i], a->nmem - i, head);
 		i++;
 	}
-	apply_chain(a, b, chain);
-	free_stack(chain);
+	apply_chain(a, b, head->content->values);
 }
 
-static bool	find_chain(int *values, int *chain, int nmem, int *max_len)
+t_list	create_chain_stack(int nmem)
+{
+	t_list	*chain;
+	t_stack	*stack;
+
+	chain = NULL;
+	while (nmem > 0)
+	{
+		stack = create_stack(nmem);
+		if (stack == NULL)
+			ft_lstclear(&chain, ft_del);
+		ft_lstadd_back();
+		nmem--;
+	}
+	return (chain);
+}
+
+static bool	find_chain(int *values, int nmem, t_list *node)
 {
 	int	i;
-	static int	len = 1;
 	bool	save;
 
 	i = 1;
@@ -45,13 +58,12 @@ static bool	find_chain(int *values, int *chain, int nmem, int *max_len)
 	{
 		if (values[i] > values[0])
 		{
-			len++;
-			if (find_chain(&values[i], &chain[1], nmem - i, max_len))
+			if ()
 			{
+				find_chain(&values[i], &chain[1], nmem - i, max_len);
 				save = true;
 				chain[0] = values[0];
 			}
-			len--;
 		}
 		i++;
 	}

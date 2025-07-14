@@ -54,10 +54,11 @@ int		ft_putchar_fd(char c, int fd);
 int		ft_putstr_fd(char *s, int fd);
 int		ft_putendl_fd(char *s, int fd);
 int		ft_putnbr_fd(int n, int fd);
+int		ft_printf(const char *format, ...);
 int		ft_max(int a, int b);
 int		ft_min(int a, int b);
 void	ft_swap(int *a, int *b);
-int		ft_printf(const char *format, ...);
+void	ft_del(void *content);
 
 typedef struct s_list
 {
