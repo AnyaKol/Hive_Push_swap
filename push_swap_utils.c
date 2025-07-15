@@ -88,7 +88,7 @@ bool	ft_issorted(t_stack stack)
 			i -= stack.nmem;
 		if (i == 0 && stack.values[0] < stack.values[stack.nmem - 1])
 			return (false);
-		else if (stack.values[i] < stack.values[i - 1])
+		else if (i != 0 && stack.values[i] < stack.values[i - 1])
 			return (false);
 		i++;
 	}

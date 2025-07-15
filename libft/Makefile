@@ -12,8 +12,6 @@
 
 NAME = libft.a
 
-HDR = libft.h
-
 CC = cc
 CFLAGS = -Wall -Werror -Wextra
 
@@ -69,10 +67,8 @@ SRC = \
 	ft_del.c \
 
 OBJ_DIR = obj
+HDR = libft.h
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
-
-PRINTF_DIR = ft_printf
-PRINTF_HDR = $(PRINTF_DIR)/ft_printf.h
 
 PRINTF_SRC = \
 	$(PRINTF_DIR)/ft_printf.c \
@@ -80,17 +76,27 @@ PRINTF_SRC = \
 	$(PRINTF_DIR)/ft_printf_format.c \
 	$(PRINTF_DIR)/ft_printf_precision.c \
 	$(PRINTF_DIR)/ft_printf_utils.c \
-	
+
+PRINTF_DIR = ft_printf
+PRINTF_HDR = $(PRINTF_DIR)/ft_printf.h
 PRINTF_OBJ = $(PRINTF_SRC:$(PRINTF_DIR)/%.c=$(OBJ_DIR)/%.o)
+
+NEXT_LINE_SRC = \
+	$(NEXT_LINE_DIR)/get_next_line.c \
+
+NEXT_LINE_DIR = get_next_line
+NEXT_LINE_HDR = $(NEXT_LINE_DIR)/get_next_line.h
+NEXT_LINE_OBJ = $(NEXT_LINE_SRC:$(NEXT_LINE_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 COLOR = \033[1;32m
 RESET = \033[0m
 
 all: $(NAME)
 
-$(NAME): $(OBJ_DIR) $(OBJ) $(PRINTF_OBJ)
+$(NAME): $(OBJ_DIR) $(OBJ) $(PRINTF_OBJ) $(NEXT_LINE_OBJ)
 	@ar -rcs $(NAME) $(OBJ)
 	@ar -rcs $(NAME) $(PRINTF_OBJ)
+	@ar -rcs $(NAME) $(NEXT_LINE_OBJ)
 	@echo "$(COLOR) Building $@$(RESET)"
 
 $(OBJ) $(PRINTF_OBJ): | $(OBJ_DIR)
@@ -104,6 +110,9 @@ $(OBJ_DIR)/%.o: %.c $(HDR)
 $(OBJ_DIR)/%.o: $(PRINTF_DIR)/%.c $(PRINTF_HDR)
 	@$(CC) $(CFLAGS) -o $@ -c $<
 
+$(OBJ_DIR)/%.o: $(NEXT_LINE_DIR)/%.c $(NEXT_LINE_HDR)
+	@$(CC) $(CFLAGS) -o $@ -c $<
+
 clean:
 	@rm -rf $(OBJ) $(OBJ_DIR)
 	@echo "$(COLOR) Cleaning $(NAME)$(RESET)"
@@ -114,5 +123,5 @@ fclean: clean
 
 re: fclean all
 
-.SECONDARY: $(OBJ_DIR) $(OBJ) $(PRINTF_OBJ)
+.SECONDARY: $(OBJ_DIR) $(OBJ) $(PRINTF_OBJ) $(NEXT_LINE_OBJ)
 .PHONY: all clean fclean re
