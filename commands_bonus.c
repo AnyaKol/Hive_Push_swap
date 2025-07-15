@@ -10,26 +10,32 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "checker_bonus.h"
 
 static void	ft_push(t_stack *to, t_stack *from);
 static void	ft_rotate(t_stack *stack);
 static void	ft_rotate_rev(t_stack *stack);
-static void	stack_command(char *command, t_stack *a, t_stack *b);
 
-int	apply_command(char *command, t_stack *a, t_stack *b)
+char	*get_commands(void)
 {
-	static int	counter = 0;
+	char	*command;
+	char	*command_list;
 
-	if (!ft_strncmp(command, "", 1))
-		return (counter);
-	stack_command(command, a, b);
-	ft_printf("%s\n", command);
-	counter++;
-	return (counter);
+	command_list = "";
+	ft_printf("here\n");
+	while (true)
+	{
+		command = get_next_line(1);
+		ft_printf("%s", command);
+		if (!ft_strncmp(command, "(null)", 6) || !ft_strncmp(command, "", 1))
+			break ;
+		command_list = ft_strjoin(command_list, command);
+		free(command);
+	}
+	return (command_list);
 }
 
-static void	stack_command(char *command, t_stack *a, t_stack *b)
+void	stack_command(char *command, t_stack *a, t_stack *b)
 {
 	if (!ft_strncmp(command, "sa", 3) || !ft_strncmp(command, "ss", 3))
 		ft_swap(&a->values[0], &a->values[1]);
@@ -47,6 +53,8 @@ static void	stack_command(char *command, t_stack *a, t_stack *b)
 		ft_rotate(b);
 	else if (!ft_strncmp(command, "rrb", 3) || !ft_strncmp(command, "rrr", 3))
 		ft_rotate_rev(b);
+	else
+		print_error();
 }
 
 static void	ft_push(t_stack *to, t_stack *from)

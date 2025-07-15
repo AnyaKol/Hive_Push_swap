@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap_main.c                                   :+:      :+:    :+:   */
+/*   checker_main_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akolupae <akolupae@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/17 16:05:03 by akolupae          #+#    #+#             */
-/*   Updated: 2025/07/15 11:00:14 by akolupae         ###   ########.fr       */
+/*   Created: 2025/07/15 18:16:18 by akolupae          #+#    #+#             */
+/*   Updated: 2025/07/15 19:27:42 by akolupae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "checker_bonus.h"
 
 static bool	check_arg(char *arg);
 static bool	check_repeat(t_stack stack);
-static int	print_error(void);
+static int	print_result(bool result);
 
 int	main(int argc, char **argv)
 {
 	int		i;
 	t_stack	*a;
+	char	*command_list;
 
 	if (argc <= 2)
 		return (0);
@@ -37,10 +38,12 @@ int	main(int argc, char **argv)
 	}
 	if (!check_repeat(*a))
 		return (print_error());
-	sort_stack(a);
-//	if (ft_issorted(*a))
-//		ft_printf("✅\n");
-//	ft_printf("Commands: %i\n", apply_command("", NULL, NULL));
+
+	command_list = get_commands();
+	ft_printf("%s", command_list);
+	free(command_list);
+
+	print_result(true);
 	free_stack(a);
 	return (0);
 }
@@ -87,8 +90,11 @@ static bool	check_repeat(t_stack stack)
 	return (true);
 }
 
-static int	print_error(void)
+static int	print_result(bool result)
 {
-	ft_putstr_fd("Error\n", 2);
+	if (result)
+		ft_putstr_fd("OK\n", 1);
+	else
+		ft_putstr_fd("KO\n", 1);
 	return (0);
 }

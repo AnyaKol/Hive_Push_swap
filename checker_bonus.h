@@ -12,8 +12,19 @@
 
 #ifndef CHECKER_BONUS_H
 # define CHECKER_BONUS_H
+
 # include "libft/libft.h"
 
-#include <fcntl.h> //REMOVE
+typedef struct s_stack
+{
+	int	*values;
+	int	nmem;
+}	t_stack;
+
+char	*get_commands(void);
+void	stack_command(char *command, t_stack *a, t_stack *b);
+t_stack	*create_stack(int nmem);
+void	free_stack(t_stack *stack);
+int		print_error(void);
 
 #endif

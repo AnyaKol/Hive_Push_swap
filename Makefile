@@ -29,7 +29,8 @@ SRC = \
 	commands.c \
 
 SRC_B = \
-	checker_bonus.c \
+	checker_main_bonus.c \
+	checker_utils_bonus.c \
 	commands_bonus.c \
 
 OBJ_DIR = obj
