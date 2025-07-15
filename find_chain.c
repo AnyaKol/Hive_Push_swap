@@ -14,8 +14,8 @@
 
 static void	fill_memo(int *values, int nmem, t_stack **memo);
 static void	apply_chain(t_stack *a, t_stack *b, t_stack *chain);
-static bool	stack_contains(t_stack *stack, int num);
 static bool	check_swap(int *values, int nmem, int num, int compare);
+static void	apply_swap(t_stack *a, t_stack *b, t_stack *chain);
 
 void	find_chain(t_stack *a, t_stack *b)
 {
@@ -49,6 +49,7 @@ static void	fill_memo(int *values, int nmem, t_stack **memo)
 {
 	int	i;
 	int	max;
+	int	size;
 
 	i = 1;
 	max = 0;
@@ -61,7 +62,8 @@ static void	fill_memo(int *values, int nmem, t_stack **memo)
 			if (memo[i]->nmem > max)
 			{
 				max = memo[i]->nmem;
-				ft_memcpy(&memo[0]->values[1], memo[i]->values, max * sizeof(int));
+				size = max * sizeof(int);
+				ft_memcpy(&memo[0]->values[1], memo[i]->values, size);
 			}
 		}
 		i++;
@@ -72,30 +74,9 @@ static void	fill_memo(int *values, int nmem, t_stack **memo)
 
 static void	apply_chain(t_stack *a, t_stack *b, t_stack *chain)
 {
-	bool	swap_a;
-	bool	swap_b;
-
-	if (chain->nmem == a->nmem)
-		return ;
 	while (a->nmem > chain->nmem)
 	{
-		swap_a = check_swap(a->values, a->nmem, a->values[1], a->values[0]);
-		swap_b = check_swap(b->values, b->nmem, b->values[0], b->values[1]);
-		if (swap_a)
-		{
-			if (swap_b)
-				apply_command("ss", a, b);
-			else
-				apply_command("sa", a, b);
-			if (stack_contains(chain, a->values[1]))
-			{
-				chain->values[chain->nmem] = a->values[0];
-				chain->nmem += 1;
-			}
-			continue ;
-		}
-		else if (swap_b)
-			apply_command("sb", a, b);
+		apply_swap(a, b, chain);
 		if (ft_issorted(*a))
 			return ;
 		if (stack_contains(chain, a->values[0]))
@@ -105,18 +86,33 @@ static void	apply_chain(t_stack *a, t_stack *b, t_stack *chain)
 	}
 }
 
-static bool	stack_contains(t_stack *stack, int num)
+static void	apply_swap(t_stack *a, t_stack *b, t_stack *chain)
 {
-	int	i;
+	bool	swap_a;
+	bool	swap_b;
 
-	i = 0;
-	while (i < stack->nmem)
+	swap_a = check_swap(a->values, a->nmem, a->values[1], a->values[0]);
+	swap_b = check_swap(b->values, b->nmem, b->values[0], b->values[1]);
+	if (swap_a)
 	{
-		if (stack->values[i] == num)
-			return (true);
-		i++;
+		if (swap_b)
+			apply_command("ss", a, b);
+		else
+			apply_command("sa", a, b);
+		ft_printf("a[0]: %i\na[1]: %i\n", a->values[0], a->values[1]);
+		if (stack_contains(chain, a->values[1]))
+		{
+			chain->values[chain->nmem] = a->values[0];
+			chain->nmem += 1;
+		}
+		else if (stack_contains(chain, a->values[0]))
+		{
+			chain->values[chain->nmem] = a->values[1];
+			chain->nmem += 1;
+		}
 	}
-	return (false);
+	else if (swap_b)
+		apply_command("sb", a, b);
 }
 
 static bool	check_swap(int *values, int nmem, int num, int compare)

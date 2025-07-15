@@ -38,11 +38,9 @@ int	main(int argc, char **argv)
 	if (!check_repeat(*a))
 		return (print_error());
 	sort_stack(a);
-
 	if (ft_issorted(*a))
 		ft_printf("✅\n");
 	ft_printf("Commands: %i\n", apply_command("", NULL, NULL));
-
 	free_stack(a);
 	return (0);
 }
@@ -76,12 +74,12 @@ static bool	check_repeat(t_stack stack)
 	{
 		current_num = stack.values[i];
 		j = i + 1;
-			while (j < stack.nmem)
-			{
-				if (current_num == stack.values[j])
-					return (false);
-				j++;
-			}
+		while (j < stack.nmem)
+		{
+			if (current_num == stack.values[j])
+				return (false);
+			j++;
+		}
 		i++;
 	}
 	return (true);

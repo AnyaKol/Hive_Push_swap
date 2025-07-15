@@ -13,34 +13,28 @@
 #include "push_swap.h"
 
 void	sort_stack(t_stack *a)
-{	
+{
 	t_stack	*b;
 
-	b = create_stack(a->nmem);	
+	b = create_stack(a->nmem);
 	if (b == NULL)
 		return ;
 	find_chain(a, b);
-
 	ft_printf("\nFind longest chain:\n");
 	ft_printf("a: ");
 	print_stack(a);
 	ft_printf("b: ");
 	print_stack(b);
-
 	fill_gaps(a, b);
-
 	ft_printf("\nFill gaps:\n");
 	ft_printf("a: ");
 	print_stack(a);
 	ft_printf("b: ");
 	print_stack(b);
-
 	free_stack(b);
 	rotate_to_start(a);
-
 	ft_printf("\nRotate to start:\n");
 	print_stack(a);
-
 }
 
 void	rotate_to_start(t_stack *a)

@@ -12,9 +12,9 @@
 
 #include "push_swap.h"
 
-static t_cost	find_cheapest(t_stack *a, t_stack *b);
-static t_cost	min_cost(t_cost index, int nmem_a, int nmem_b);
-static void		rotate_repeat(t_cost *index, t_stack *a, t_stack *b);
+static void	find_cheapest(t_cost *min, t_stack *a, t_stack *b);
+static void	min_cost(t_cost index, t_cost *min, int nmem_a, int nmem_b);
+static void	rotate_repeat(t_cost *index, t_stack *a, t_stack *b);
 
 void	fill_gaps(t_stack *a, t_stack *b)
 {
@@ -22,7 +22,7 @@ void	fill_gaps(t_stack *a, t_stack *b)
 
 	while (b->nmem != 0)
 	{
-		index = find_cheapest(a, b);
+		find_cheapest(&index, a, b);
 		rotate_repeat(&index, a, b);
 		rotate_stack(index, a, b);
 		apply_command("pa", a, b);
@@ -54,52 +54,44 @@ static void	rotate_repeat(t_cost *index, t_stack *a, t_stack *b)
 	}
 }
 
-static t_cost	find_cheapest(t_stack *a, t_stack *b)
+static void	find_cheapest(t_cost *min, t_stack *a, t_stack *b)
 {
-	int	i;
+	int		i;
 	t_cost	index;
-	t_cost	cheapest;
 
 	i = 0;
-	cheapest.cost = a->nmem + b->nmem;
+	min->cost = a->nmem + b->nmem;
 	while (i < b->nmem)
 	{
 		index.a = index_in_stack(b->values[i], a);
 		index.b = i;
-		index = min_cost(index, a->nmem - index.a, b->nmem - index.b);
-		if (index.cost < cheapest.cost)
-			cheapest = index;
+		min_cost(index, min, a->nmem - index.a, b->nmem - index.b);
 		i++;
 	}
-	return (cheapest);
 }
 
-static t_cost	min_cost(t_cost index, int rev_a, int rev_b)
+static void	min_cost(t_cost index, t_cost *min, int rev_a, int rev_b)
 {
-	t_cost	min;
-
-	min = index;
-	min.cost = index.a + index.b - ft_min(index.a, index.b);
+	index.cost = index.a + index.b - ft_min(index.a, index.b);
+	if (index.cost < min->cost)
+		*min = index;
 	index.cost = index.a + rev_b;
-	if (index.cost < min.cost)
+	if (index.cost < min->cost)
 	{
-		min.cost = index.cost;
-		min.a = index.a;
-		min.b = -rev_b;
+		*min = index;
+		min->b = -rev_b;
 	}
 	index.cost = rev_a + index.b;
-	if (index.cost < min.cost)
+	if (index.cost < min->cost)
 	{
-		min.cost = index.cost;
-		min.a = -rev_a;
-		min.b = index.b;
+		*min = index;
+		min->a = -rev_a;
 	}
 	index.cost = rev_a + rev_b - ft_min(rev_a, rev_b);
-	if (index.cost < min.cost)
+	if (index.cost < min->cost)
 	{
-		min.cost = index.cost;
-		min.a = -rev_a;
-		min.b = -rev_b;
+		min->cost = index.cost;
+		min->a = -rev_a;
+		min->b = -rev_b;
 	}
-	return (min);
 }

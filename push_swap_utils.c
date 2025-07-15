@@ -28,6 +28,20 @@ int	index_in_stack(int num, t_stack *stack)
 	return (i);
 }
 
+bool	stack_contains(t_stack *stack, int num)
+{
+	int	i;
+
+	i = 0;
+	while (i < stack->nmem)
+	{
+		if (stack->values[i] == num)
+			return (true);
+		i++;
+	}
+	return (false);
+}
+
 void	rotate_stack(t_cost index, t_stack *a, t_stack *b)
 {
 	int	i;
@@ -80,9 +94,6 @@ bool	ft_issorted(t_stack stack)
 	}
 	return (true);
 }
-
-
-
 
 void	print_stack(t_stack *stack)
 {
