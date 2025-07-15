@@ -39,6 +39,8 @@ void	find_chain(t_stack *a, t_stack *b)
 		}
 		i++;
 	}
+	ft_printf("chain: ");
+	print_stack(chain);
 	apply_chain(a, b, chain);
 	free_memo(memo, a->nmem);
 }
@@ -85,8 +87,11 @@ static void	apply_chain(t_stack *a, t_stack *b, t_stack *chain)
 				apply_command("ss", a, b);
 			else
 				apply_command("sa", a, b);
-			chain->values[chain->nmem] = a->values[0];
-			chain->nmem += 1;
+			if (stack_contains(chain, a->values[1]))
+			{
+				chain->values[chain->nmem] = a->values[0];
+				chain->nmem += 1;
+			}
 			continue ;
 		}
 		else if (swap_b)

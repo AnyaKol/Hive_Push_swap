@@ -38,11 +38,11 @@ int	main(int argc, char **argv)
 	if (!check_repeat(*a))
 		return (print_error());
 	sort_stack(a);
-	/*
+
 	if (ft_issorted(*a))
 		ft_printf("✅\n");
 	ft_printf("Commands: %i\n", apply_command("", NULL, NULL));
-	*/
+
 	free_stack(a);
 	return (0);
 }
