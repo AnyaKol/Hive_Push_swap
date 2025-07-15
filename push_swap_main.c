@@ -6,7 +6,7 @@
 /*   By: akolupae <akolupae@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 16:05:03 by akolupae          #+#    #+#             */
-/*   Updated: 2025/07/11 11:05:41 by akolupae         ###   ########.fr       */
+/*   Updated: 2025/07/15 11:00:14 by akolupae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,11 @@ int	main(int argc, char **argv)
 	if (!check_repeat(*a))
 		return (print_error());
 	sort_stack(a);
-//	if (ft_issorted(*a))
-//		ft_printf("✅\n");
-//	ft_printf("Commands: %i\n", apply_command("", NULL, NULL));
+	/*
+	if (ft_issorted(*a))
+		ft_printf("✅\n");
+	ft_printf("Commands: %i\n", apply_command("", NULL, NULL));
+	*/
 	free_stack(a);
 	return (0);
 }

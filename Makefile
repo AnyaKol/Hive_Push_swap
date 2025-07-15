@@ -20,6 +20,7 @@ CFLAGS = -Wall -Werror -Wextra
 SRC = \
 	push_swap_main.c \
 	push_swap_utils.c \
+	memo_utils.c \
 	sort_stack.c \
 	find_chain.c \
 	fill_gaps.c \

@@ -6,7 +6,7 @@
 /*   By: akolupae <akolupae@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 11:28:04 by akolupae          #+#    #+#             */
-/*   Updated: 2025/07/11 09:11:24 by akolupae         ###   ########.fr       */
+/*   Updated: 2025/07/15 10:59:52 by akolupae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,10 @@ t_stack	**create_memo(t_stack *a);
 void	free_memo(t_stack **memo, int nmem);
 int		index_in_stack(int num, t_stack *stack);
 void	rotate_stack(t_cost index, t_stack *a, t_stack *b);
+bool	ft_issorted(t_stack stack);
 
 
 
-
-//void	print_stack(t_stack *stack); //REMOVE
-//bool	ft_issorted(t_stack stack); //REMOVE
+void	print_stack(t_stack *stack); //REMOVE
 
 #endif

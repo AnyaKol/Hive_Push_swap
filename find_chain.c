@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   leave_chain.c                                      :+:      :+:    :+:   */
+/*   find_chain.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akolupae <akolupae@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 16:05:03 by akolupae          #+#    #+#             */
-/*   Updated: 2025/07/14 18:28:17 by akolupae         ###   ########.fr       */
+/*   Updated: 2025/07/15 12:57:02 by akolupae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static void	fill_memo(int *values, int nmem, t_stack **memo);
 static void	apply_chain(t_stack *a, t_stack *b, t_stack *chain);
 static bool	stack_contains(t_stack *stack, int num);
+static bool	check_swap(int *values, int nmem, int num, int compare);
 
 void	find_chain(t_stack *a, t_stack *b)
 {
@@ -69,10 +70,29 @@ static void	fill_memo(int *values, int nmem, t_stack **memo)
 
 static void	apply_chain(t_stack *a, t_stack *b, t_stack *chain)
 {
+	bool	swap_a;
+	bool	swap_b;
+
 	if (chain->nmem == a->nmem)
 		return ;
 	while (a->nmem > chain->nmem)
 	{
+		swap_a = check_swap(a->values, a->nmem, a->values[1], a->values[0]);
+		swap_b = check_swap(b->values, b->nmem, b->values[0], b->values[1]);
+		if (swap_a)
+		{
+			if (swap_b)
+				apply_command("ss", a, b);
+			else
+				apply_command("sa", a, b);
+			chain->values[chain->nmem] = a->values[0];
+			chain->nmem += 1;
+			continue ;
+		}
+		else if (swap_b)
+			apply_command("sb", a, b);
+		if (ft_issorted(*a))
+			return ;
 		if (stack_contains(chain, a->values[0]))
 			apply_command("ra", a, b);
 		else
@@ -94,4 +114,27 @@ static bool	stack_contains(t_stack *stack, int num)
 	return (false);
 }
 
+static bool	check_swap(int *values, int nmem, int num, int compare)
+{
+	int		i;
+	int		min;
+	bool	found;
 
+	if (nmem < 3)
+		return (false);
+	i = 0;
+	min = INT_MAX;
+	found = false;
+	while (i < nmem)
+	{
+		if (num < values[i] && values[i] <= min)
+		{
+			min = values[i];
+			found = true;
+		}
+		i++;
+	}
+	if (found && min == compare)
+		return (true);
+	return (false);
+}
