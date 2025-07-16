@@ -6,20 +6,20 @@
 /*   By: akolupae <akolupae@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 18:16:18 by akolupae          #+#    #+#             */
-/*   Updated: 2025/07/15 19:27:42 by akolupae         ###   ########.fr       */
+/*   Updated: 2025/07/16 19:07:00 by akolupae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "checker_bonus.h"
 
-static bool	check_arg(char *arg);
-static bool	check_repeat(t_stack stack);
-static int	print_result(bool result);
+static bool	check_args(char **args, int arg_num, t_stack *a);
+static bool	check_repeat(const t_stack *stack);
+static void	print_result(bool result);
 
 int	main(int argc, char **argv)
 {
-	int		i;
 	t_stack	*a;
+	t_stack	*b;
 	char	*command_list;
 
 	if (argc <= 2)
@@ -28,60 +28,77 @@ int	main(int argc, char **argv)
 	if (a == NULL)
 		return (0);
 	a->nmem = argc - 1;
-	i = 1;
-	while (i < argc)
+	if (!check_args(&argv[1], argc - 1, a) || !check_repeat(a))
 	{
-		if (!check_arg(argv[i]))
-			return (print_error());
-		a->values[i - 1] = ft_atoi(argv[i]);
-		i++;
-	}
-	if (!check_repeat(*a))
+		free_stack(a);
 		return (print_error());
-
+	}
+	print_stack(a);
+	b = create_stack(argc - 1);
+	if (b == NULL)
+	{
+		free_stack(a);
+		return (0);
+	}
 	command_list = get_commands();
-	ft_printf("%s", command_list);
-	free(command_list);
-
-	print_result(true);
+	if (command_list == NULL)
+	{
+		free_stack(a);
+		free_stack(b);
+		return (0);
+	}
+	ft_printf("command list:\n%s", command_list);
+	if (!apply_commands(command_list, a, b))
+		print_error();
+	else
+		print_result(ft_issorted(a));
+	ft_printf("a: \n");
+	print_stack(a);
 	free_stack(a);
+	free_stack(b);
+	free(command_list);
 	return (0);
 }
 
-static bool	check_arg(char *arg)
+static bool	check_args(char **args, int arg_num, t_stack *stack)
 {
 	int	i;
+	int	j;
 
-	if (arg == NULL)
-		return (false);
 	i = 0;
-	if (arg[i] == '-')
-		i++;
-	while (arg[i] != '\0')
+	while (i < arg_num)
 	{
-		if (!ft_isdigit(arg[i]))
+		j = 0;
+		if (args[i][j] == '-')
+			j++;
+		while (args[i][j] != '\0')
+		{
+			if (!ft_isdigit(args[i][j]))
+				return (false);
+			j++;
+		}
+		stack->values[i] = ft_atoi(args[i]);
+		if (stack->values[i] == 0 && j > 2)
 			return (false);
 		i++;
 	}
-	if (ft_atoi(arg) == 0 && i > 2)
-		return (false);
 	return (true);
 }
 
-static bool	check_repeat(t_stack stack)
+static bool	check_repeat(const t_stack *stack)
 {
 	int	i;
 	int	j;
 	int	current_num;
 
 	i = 0;
-	while (i < stack.nmem - 1)
+	while (i < stack->nmem - 1)
 	{
-		current_num = stack.values[i];
+		current_num = stack->values[i];
 		j = i + 1;
-		while (j < stack.nmem)
+		while (j < stack->nmem)
 		{
-			if (current_num == stack.values[j])
+			if (current_num == stack->values[j])
 				return (false);
 			j++;
 		}
@@ -90,11 +107,10 @@ static bool	check_repeat(t_stack stack)
 	return (true);
 }
 
-static int	print_result(bool result)
+static void	print_result(bool result)
 {
 	if (result)
 		ft_putstr_fd("OK\n", 1);
 	else
 		ft_putstr_fd("KO\n", 1);
-	return (0);
 }

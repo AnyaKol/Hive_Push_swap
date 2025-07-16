@@ -6,36 +6,64 @@
 /*   By: akolupae <akolupae@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:47:45 by akolupae          #+#    #+#             */
-/*   Updated: 2025/07/10 09:07:46 by akolupae         ###   ########.fr       */
+/*   Updated: 2025/07/16 19:08:11 by akolupae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "checker_bonus.h"
 
+static bool	check_command(char *command);
+static void	stack_command(char *command, t_stack *a, t_stack *b);
 static void	ft_push(t_stack *to, t_stack *from);
 static void	ft_rotate(t_stack *stack);
 static void	ft_rotate_rev(t_stack *stack);
 
-char	*get_commands(void)
+bool	apply_commands(char *command_list, t_stack *a, t_stack *b)
 {
-	char	*command;
-	char	*command_list;
+	char	command[4];
+	int		i;
+	int		j;
 
-	command_list = "";
-	ft_printf("here\n");
-	while (true)
+	i = 0;
+	j = 0;
+	ft_bzero(command, 4 * sizeof(char));
+	while (command_list[i] != '\0' && j < 4)
 	{
-		command = get_next_line(1);
-		ft_printf("%s", command);
-		if (!ft_strncmp(command, "(null)", 6) || !ft_strncmp(command, "", 1))
-			break ;
-		command_list = ft_strjoin(command_list, command);
-		free(command);
+		if (command_list[i] == '\n')
+		{
+			command[j] = '\0';
+			if (!check_command(command))
+				return (false);
+			stack_command(command, a, b);
+			j = 0;
+		}
+		else
+		{
+			command[j] = command_list[i];
+			j++;
+		}
+		i++;
 	}
-	return (command_list);
+	return (true);
 }
 
-void	stack_command(char *command, t_stack *a, t_stack *b)
+static bool	check_command(char *command)
+{
+	const char	*all[11] = {"sa", "sb", "ss", "pa", "pb", "ra", "rb", "rr",
+		"rra", "rrb", "rrr"};
+	int	i;
+	i = 0;
+	while (i < 11)
+	{
+		if (!ft_strncmp(command, all[i], 3))
+			return (true);
+		i++;
+	}
+	ft_printf("no such command\n");
+	return (false);
+}
+
+static void	stack_command(char *command, t_stack *a, t_stack *b)
 {
 	if (!ft_strncmp(command, "sa", 3) || !ft_strncmp(command, "ss", 3))
 		ft_swap(&a->values[0], &a->values[1]);
@@ -53,8 +81,6 @@ void	stack_command(char *command, t_stack *a, t_stack *b)
 		ft_rotate(b);
 	else if (!ft_strncmp(command, "rrb", 3) || !ft_strncmp(command, "rrr", 3))
 		ft_rotate_rev(b);
-	else
-		print_error();
 }
 
 static void	ft_push(t_stack *to, t_stack *from)

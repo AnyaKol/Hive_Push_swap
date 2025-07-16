@@ -6,7 +6,7 @@
 /*   By: akolupae <akolupae@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 18:16:35 by akolupae          #+#    #+#             */
-/*   Updated: 2025/07/15 19:02:05 by akolupae         ###   ########.fr       */
+/*   Updated: 2025/07/16 17:59:48 by akolupae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,14 @@ typedef struct s_stack
 }	t_stack;
 
 char	*get_commands(void);
-void	stack_command(char *command, t_stack *a, t_stack *b);
+bool	apply_commands(char *command_list, t_stack *a, t_stack *b);
 t_stack	*create_stack(int nmem);
 void	free_stack(t_stack *stack);
+bool	ft_issorted(const t_stack *stack);
 int		print_error(void);
+
+
+
+void	print_stack(t_stack *stack); //REMOVE
 
 #endif

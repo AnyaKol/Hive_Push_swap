@@ -95,6 +95,9 @@ bool	ft_issorted(t_stack stack)
 	return (true);
 }
 
+
+
+
 void	print_stack(t_stack *stack)
 {
 	int	i;

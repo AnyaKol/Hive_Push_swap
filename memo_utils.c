@@ -22,7 +22,11 @@ t_stack	*create_stack(int nmem)
 	stack->nmem = 0;
 	stack->values = ft_calloc(nmem, sizeof(int));
 	if (stack->values == NULL)
+	{
+		free(stack);
+		stack = NULL;
 		return (NULL);
+	}
 	return (stack);
 }
 
