@@ -14,7 +14,6 @@
 
 static bool	check_arg(char *arg);
 static bool	check_repeat(t_stack stack);
-static int	print_error(void);
 
 int	main(int argc, char **argv)
 {
@@ -31,17 +30,14 @@ int	main(int argc, char **argv)
 	while (i < argc)
 	{
 		if (!check_arg(argv[i]))
-			return (print_error());
+			return (clean_up(a, true));
 		a->values[i - 1] = ft_atoi(argv[i]);
 		i++;
 	}
 	if (!check_repeat(*a))
-		return (print_error());
+		return (clean_up(a, true));
 	sort_stack(a);
-//	if (ft_issorted(*a))
-//		ft_printf("✅\n");
-//	ft_printf("Commands: %i\n", apply_command("", NULL, NULL));
-	free_stack(a);
+	clean_up(a, false);
 	return (0);
 }
 
@@ -85,10 +81,4 @@ static bool	check_repeat(t_stack stack)
 		i++;
 	}
 	return (true);
-}
-
-static int	print_error(void)
-{
-	ft_putstr_fd("Error\n", 2);
-	return (0);
 }

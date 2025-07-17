@@ -1,19 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_del.c                                           :+:      :+:    :+:   */
+/*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akolupae <akolupae@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/15 16:26:22 by akolupae          #+#    #+#             */
-/*   Updated: 2025/07/15 16:26:24 by akolupae         ###   ########.fr       */
+/*   Created: 2025/07/17 18:00:52 by akolupae          #+#    #+#             */
+/*   Updated: 2025/07/17 18:02:03 by akolupae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_del(void *content)
+void	ft_free(void *ptr)
 {
-	free(content);
-	content = NULL;
+	if (ptr == NULL)
+		return ;
+	free(ptr);
+	ptr = NULL;
 }

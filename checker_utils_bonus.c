@@ -23,8 +23,7 @@ t_stack	*create_stack(int nmem)
 	stack->values = ft_calloc(nmem, sizeof(int));
 	if (stack->values == NULL)
 	{
-		free(stack);
-		stack = NULL;
+		ft_free(stack);
 		return (NULL);
 	}
 	return (stack);
@@ -35,80 +34,45 @@ void	free_stack(t_stack *stack)
 	if (stack == NULL)
 		return ;
 	if (stack->values != NULL)
-	{
-		free(stack->values);
-		stack->values = NULL;
-	}
-	free(stack);
-	stack = NULL;
+		ft_free(stack->values);
+	ft_free(stack);
 }
 
-char	*get_commands(void)
+bool	check_command(char *command)
 {
-	char	*command;
-	char	*command_list;
+	const char	*all[11] = {"sa", "sb", "ss", "pa", "pb", "ra", "rb", "rr",
+		"rra", "rrb", "rrr"};
+	int			i;
 
-	command_list = ft_calloc(1, 1);
-	while (true)
+	i = 0;
+	while (i < 11)
 	{
-		command = get_next_line(1);
-		if (!ft_strncmp(command, "(null)", 6))
-		{
-			free(command);
-			command = NULL;
-			break ;
-		}
-		command_list = ft_strjoin(command_list, command);
-		free(command);
-		command = NULL;
+		if (!ft_strncmp(command, all[i], 3))
+			return (true);
+		i++;
 	}
-	return (command_list);
+	return (false);
 }
 
 bool	ft_issorted(const t_stack *stack)
 {
 	int	i;
-	int	min;
 
-	i = 0;
-	min = 0;
+	i = 1;
 	while (i < stack->nmem)
 	{
-		if (stack->values[i] < stack->values[min])
-			min = i;
-		i++;
-	}
-	i = min + 1;
-	while (i != min && i - stack->nmem != min)
-	{
-		if (i >= stack->nmem)
-			i -= stack->nmem;
-		if (i == 0 && stack->values[0] < stack->values[stack->nmem - 1])
-			return (false);
-		else if (i >= 0 && stack->values[i] < stack->values[i - 1])
+		if (stack->values[i - 1] > stack->values[i])
 			return (false);
 		i++;
 	}
 	return (true);
 }
 
-int	print_error(void)
+int	clean_up(t_stack *a, t_stack *b, bool error)
 {
-	ft_putstr_fd("Error\n", 2);
+	free_stack(a);
+	free_stack(b);
+	if (error)
+		ft_putstr_fd("Error\n", 2);
 	return (0);
-}
-
-
-
-void	print_stack(t_stack *stack)
-{
-	int	i;
-
-	i = 0;
-	while (i < stack->nmem)
-	{
-		ft_printf(" %i", stack->values[i]);
-		i++;
-	}
-	ft_printf("\n");
 }

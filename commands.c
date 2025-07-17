@@ -17,16 +17,10 @@ static void	ft_rotate(t_stack *stack);
 static void	ft_rotate_rev(t_stack *stack);
 static void	stack_command(char *command, t_stack *a, t_stack *b);
 
-int	apply_command(char *command, t_stack *a, t_stack *b)
+void	apply_command(char *command, t_stack *a, t_stack *b)
 {
-	static int	counter = 0;
-
-	if (!ft_strncmp(command, "", 1))
-		return (counter);
 	stack_command(command, a, b);
 	ft_printf("%s\n", command);
-	counter++;
-	return (counter);
 }
 
 static void	stack_command(char *command, t_stack *a, t_stack *b)

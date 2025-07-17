@@ -59,7 +59,7 @@ char	*get_next_line(int fd);
 int		ft_max(int a, int b);
 int		ft_min(int a, int b);
 void	ft_swap(int *a, int *b);
-void	ft_del(void *content);
+void	ft_free(void *ptr);
 
 typedef struct s_list
 {

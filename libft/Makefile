@@ -64,7 +64,7 @@ SRC = \
 	ft_max.c \
 	ft_min.c \
 	ft_swap.c \
-	ft_del.c \
+	ft_free.c \
 
 OBJ_DIR = obj
 HDR = libft.h

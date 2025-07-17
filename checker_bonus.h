@@ -21,15 +21,11 @@ typedef struct s_stack
 	int	nmem;
 }	t_stack;
 
-char	*get_commands(void);
-bool	apply_commands(char *command_list, t_stack *a, t_stack *b);
+bool	apply_commands(t_stack *a, t_stack *b);
 t_stack	*create_stack(int nmem);
 void	free_stack(t_stack *stack);
+bool	check_command(char *command);
 bool	ft_issorted(const t_stack *stack);
-int		print_error(void);
-
-
-
-void	print_stack(t_stack *stack); //REMOVE
+int		clean_up(t_stack *a, t_stack *b, bool error);
 
 #endif

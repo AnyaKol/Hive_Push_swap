@@ -23,8 +23,7 @@ t_stack	*create_stack(int nmem)
 	stack->values = ft_calloc(nmem, sizeof(int));
 	if (stack->values == NULL)
 	{
-		free(stack);
-		stack = NULL;
+		ft_free(stack);
 		return (NULL);
 	}
 	return (stack);
@@ -35,12 +34,8 @@ void	free_stack(t_stack *stack)
 	if (stack == NULL)
 		return ;
 	if (stack->values != NULL)
-	{
-		free(stack->values);
-		stack->values = NULL;
-	}
-	free(stack);
-	stack = NULL;
+		ft_free(stack->values);
+	ft_free(stack);
 }
 
 t_stack	**create_memo(t_stack *a)
@@ -69,11 +64,13 @@ void	free_memo(t_stack **memo, int nmem)
 {
 	int	i;
 
+	if (memo == NULL)
+		return ;
 	i = 0;
 	while (i < nmem)
 	{
 		free_stack(memo[i]);
 		i++;
 	}
-	free(memo);
+	ft_free(memo);
 }

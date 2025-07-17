@@ -95,18 +95,10 @@ bool	ft_issorted(t_stack stack)
 	return (true);
 }
 
-
-
-
-void	print_stack(t_stack *stack)
+int	clean_up(t_stack *a, bool error)
 {
-	int	i;
-
-	i = 0;
-	while (i < stack->nmem)
-	{
-		ft_printf(" %i", stack->values[i]);
-		i++;
-	}
-	ft_printf("\n");
+	free_stack(a);
+	if (error)
+		ft_putstr_fd("Error\n", 2);
+	return (0);
 }

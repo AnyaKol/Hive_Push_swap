@@ -32,7 +32,7 @@ void	sort_stack(t_stack *a);
 void	find_chain(t_stack *a, t_stack *b);
 void	fill_gaps(t_stack *a, t_stack *b);
 void	rotate_to_start(t_stack *a);
-int		apply_command(char *command, t_stack *a, t_stack *b); //REMOVE counter
+void	apply_command(char *command, t_stack *a, t_stack *b);
 t_stack	*create_stack(int nmem);
 void	free_stack(t_stack *stack);
 t_stack	**create_memo(t_stack *a);
@@ -41,7 +41,6 @@ int		index_in_stack(int num, t_stack *stack);
 bool	stack_contains(t_stack *stack, int num);
 void	rotate_stack(t_cost index, t_stack *a, t_stack *b);
 bool	ft_issorted(t_stack stack);
-
-void	print_stack(t_stack *stack); //REMOVE
+int		clean_up(t_stack *a, bool error);
 
 #endif

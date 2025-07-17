@@ -6,61 +6,40 @@
 /*   By: akolupae <akolupae@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:47:45 by akolupae          #+#    #+#             */
-/*   Updated: 2025/07/16 19:08:11 by akolupae         ###   ########.fr       */
+/*   Updated: 2025/07/17 13:29:00 by akolupae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "checker_bonus.h"
 
-static bool	check_command(char *command);
 static void	stack_command(char *command, t_stack *a, t_stack *b);
 static void	ft_push(t_stack *to, t_stack *from);
 static void	ft_rotate(t_stack *stack);
 static void	ft_rotate_rev(t_stack *stack);
 
-bool	apply_commands(char *command_list, t_stack *a, t_stack *b)
+bool	apply_commands(t_stack *a, t_stack *b)
 {
-	char	command[4];
-	int		i;
-	int		j;
+	char	*command;
+	int		nline;
 
-	i = 0;
-	j = 0;
-	ft_bzero(command, 4 * sizeof(char));
-	while (command_list[i] != '\0' && j < 4)
+	while (true)
 	{
-		if (command_list[i] == '\n')
+		command = get_next_line(0);
+		if (!ft_strncmp(command, "(null)", 6) || command == NULL)
+			break ;
+		nline = ft_max(ft_strlen(command) - 1, 0);
+		if (command[nline] == '\n')
+			command[nline] = '\0';
+		if (!check_command(command))
 		{
-			command[j] = '\0';
-			if (!check_command(command))
-				return (false);
-			stack_command(command, a, b);
-			j = 0;
+			ft_free(command);
+			return (false);
 		}
-		else
-		{
-			command[j] = command_list[i];
-			j++;
-		}
-		i++;
+		stack_command(command, a, b);
+		ft_free(command);
 	}
+	ft_free(command);
 	return (true);
-}
-
-static bool	check_command(char *command)
-{
-	const char	*all[11] = {"sa", "sb", "ss", "pa", "pb", "ra", "rb", "rr",
-		"rra", "rrb", "rrr"};
-	int	i;
-	i = 0;
-	while (i < 11)
-	{
-		if (!ft_strncmp(command, all[i], 3))
-			return (true);
-		i++;
-	}
-	ft_printf("no such command\n");
-	return (false);
 }
 
 static void	stack_command(char *command, t_stack *a, t_stack *b)
