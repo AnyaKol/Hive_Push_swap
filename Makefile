@@ -31,7 +31,7 @@ SRC = \
 SRC_B = \
 	checker_main_bonus.c \
 	checker_utils_bonus.c \
-	commands_bonus.c \
+	checker_commands_bonus.c \
 
 OBJ_DIR = obj
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)

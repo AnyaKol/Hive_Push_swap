@@ -6,7 +6,7 @@
 /*   By: akolupae <akolupae@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 16:05:03 by akolupae          #+#    #+#             */
-/*   Updated: 2025/07/15 11:00:14 by akolupae         ###   ########.fr       */
+/*   Updated: 2025/07/21 14:57:47 by akolupae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	main(int argc, char **argv)
 	int		i;
 	t_stack	*a;
 
-	if (argc <= 2)
+	if (argc < 2)
 		return (0);
 	a = create_stack(argc - 1);
 	if (a == NULL)

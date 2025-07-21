@@ -6,7 +6,7 @@
 /*   By: akolupae <akolupae@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 16:05:03 by akolupae          #+#    #+#             */
-/*   Updated: 2025/07/15 12:57:02 by akolupae         ###   ########.fr       */
+/*   Updated: 2025/07/21 14:56:00 by akolupae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	find_chain(t_stack *a, t_stack *b)
 		i++;
 	}
 	apply_chain(a, b, chain);
-	free_memo(memo, a->nmem);
+	free_memo(memo, a->nmem + b->nmem);
 }
 
 static void	fill_memo(int *values, int nmem, t_stack **memo)
