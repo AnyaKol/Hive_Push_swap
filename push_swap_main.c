@@ -6,7 +6,7 @@
 /*   By: akolupae <akolupae@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 16:05:03 by akolupae          #+#    #+#             */
-/*   Updated: 2025/07/21 14:57:47 by akolupae         ###   ########.fr       */
+/*   Updated: 2025/07/28 19:28:43 by akolupae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static bool	check_arg(char *arg)
 			return (false);
 		i++;
 	}
-	if (ft_atoi(arg) == 0 && i > 2)
+	if (ft_atoi(arg) == 0 && arg[0] != '0')
 		return (false);
 	return (true);
 }
